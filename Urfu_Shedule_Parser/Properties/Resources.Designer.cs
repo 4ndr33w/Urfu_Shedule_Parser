@@ -61,11 +61,20 @@ namespace Urfu_Shedule_Parser.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на https://urfu.ru/api/schedule/groups/lessons/985795/20220411/.
+        ///   Ищет локализованную строку, похожую на https://urfu.ru/api/schedule/groups/lessons.
         /// </summary>
         internal static string Shedule_url {
             get {
                 return ResourceManager.GetString("Shedule_url", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на https://urfu.ru/api/schedule/groups/lessons/985795/20220411/.
+        /// </summary>
+        internal static string Shedule_url_Backup {
+            get {
+                return ResourceManager.GetString("Shedule_url_Backup", resourceCulture);
             }
         }
     }

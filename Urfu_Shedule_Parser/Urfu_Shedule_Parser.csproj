@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Shedule_Pattern\Lesson_Pattern.cs" />
     <Compile Include="Shedule_Pattern\Shedule_For_Group.cs" />
     <Compile Include="Sorting_Data\Extract_Data_From_Shedule.cs" />
     <Compile Include="Request\GetRequest.cs" />

@@ -7,17 +7,36 @@ using System.Net;
 using System.Threading;
 using System.Windows;
 using System.IO;
+using System.Timers;
 
 namespace Urfu_Shedule_Parser.Request
 {
     public class Get_Data
     {
-        
+        string _group_url = "985795";
+        string _group_week_date = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString();
+
+        private static System.Timers.Timer event_timer;
+
+        public void TimeEvent()
+        {
+            event_timer = new System.Timers.Timer();
+            event_timer.Interval = 86400000;
+            event_timer.AutoReset = true;
+            event_timer.Enabled = true;
+            //event_timer.Elapsed += get_data;
+        }
+
         public string get_data()
         {
+            //try
+            //{
+            //    await Task.Run(() =>
+            //    {
             string returned_request_string = "";
             //MainWindow Form1 = new MainWindow();
             Shedule_Scheme Scheme1 = new Shedule_Scheme();
+
 
             var proxy = new WebProxy("127.0.0.1:8888");
             var postRequest = new PostRequest("https://urfu.ru/0c2dd46eb010c6689ce8a9cd86fdeb8b");/*/0c2dd46eb010c6689ce8a9cd86fdeb8b*/
@@ -49,10 +68,19 @@ namespace Urfu_Shedule_Parser.Request
 
                 postRequest.Run(Post_cookieContainer);
 
-                Thread.Sleep(50);
+                Thread.Sleep(100);
+                int _group_number = 984000;
 
-                var getRequest = new GetRequest(Properties.Resources.Shedule_url);
 
+
+                for (int i = 0; i < 5000; i++)
+                {
+                    //Thread.Sleep(1000);
+                    //_group_url = _group_number ++.ToString();
+                }
+
+                var getRequest = new GetRequest(Properties.Resources.Shedule_url + @"/" + _group_url + @"/" + _group_week_date);
+                if (getRequest == null) MessageBox.Show("Request_null");
 
                 if (getRequest != null)
                 {
@@ -88,7 +116,16 @@ namespace Urfu_Shedule_Parser.Request
                 return returned_request_string = getRequest.Response;
             }
             else return string.Empty;
-            
+            //    });
+
+            //}
+            //catch (Exception)
+            //{
+
+            //    throw;
+            //}
+
+
             //return returned_request_string;
         }
 

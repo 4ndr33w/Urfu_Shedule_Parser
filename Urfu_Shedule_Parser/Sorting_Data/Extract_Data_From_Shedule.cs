@@ -21,7 +21,7 @@ namespace Urfu_Shedule_Parser.Request
         string abc = "";
 
 
-        public /*Dictionary<string, int>*/  async void Split_request_To_days(string data)
+        public /*Dictionary<string, int>*/  void Split_request_To_days(string data)
         {
             _response_string = data;
             string test_string = _response_string;
@@ -35,8 +35,8 @@ namespace Urfu_Shedule_Parser.Request
             int counter_of_disciplines_by_day = 0;
             
 
-            await Task.Run(() =>
-            {
+            //await Task.Run(() =>
+            //{
 
                 do
                 {
@@ -53,14 +53,15 @@ namespace Urfu_Shedule_Parser.Request
 
                         day_shedule.Add(day_sheldue_string);
                         Day_Sheldue_StartIndex = test_string.IndexOf("<b>", Day_Sheldue_EndIndex);
-                        //abc += day_shedule[day_shedule.Count - 1].ToString();
-                        //abc += "\n------------------------------------\n";
+                        abc += day_shedule[day_shedule.Count - 1].ToString();
+                        abc += "\n------------------------------------\n";
 
                     }
                 }
                 while (Day_Sheldue_StartIndex > -1 && Day_Sheldue_EndIndex > Day_Sheldue_StartIndex);
-            });
-            //File.WriteAllText(@"D:\00000.txt", abc);
+            //});
+            //MessageBox.Show(_response_string.Substring(_response_string.IndexOf("<div class=\"shedule-group-title\">", 17 + 33)));
+            File.WriteAllText(@"D:\00002.txt", abc);
             //MessageBox.Show(/*day_shedule.Count*/counter.ToString());
             //MessageBox.Show(day_shedule.Count.ToString());
             //return day_shedule;
@@ -177,7 +178,7 @@ namespace Urfu_Shedule_Parser.Request
                 abc += day_shedule[i].ToString();
                 abc += "\n------------------------------------\n";
             }
-            MessageBox.Show(day_shedule.Count.ToString());
+            //MessageBox.Show(day_shedule.Count.ToString());
 
             File.WriteAllText(@"D:\00001.txt", abc);
             return day_shedule;

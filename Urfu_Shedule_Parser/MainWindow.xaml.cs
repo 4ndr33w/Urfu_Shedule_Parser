@@ -58,11 +58,14 @@ namespace Urfu_Shedule_Parser
             Request.Extract_Data_From_Shedule extract_datas = new Request.Extract_Data_From_Shedule();
 
             //File.WriteAllText(@"D:\555.txt" , run_test.get_data());
-            extract_datas.Split_request_To_days(run_test.get_data());
-            Thread.Sleep(500);
+            
+            //Thread.Sleep(500);
+            
             Task.Run(() =>
             {
+                extract_datas.Split_request_To_days(run_test.get_data());
                 Shedule_list = extract_datas.Get_Splitted_Data();
+                File.WriteAllText("D:\\555555.txt", Shedule_list[Shedule_list.Count - 1]);
             });
 
 

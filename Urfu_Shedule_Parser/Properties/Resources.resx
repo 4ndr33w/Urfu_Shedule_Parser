@@ -118,6 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Shedule_url" xml:space="preserve">
+    <value>https://urfu.ru/api/schedule/groups/lessons</value>
+  </data>
+  <data name="Shedule_url_Backup" xml:space="preserve">
     <value>https://urfu.ru/api/schedule/groups/lessons/985795/20220411/</value>
   </data>
 </root>
