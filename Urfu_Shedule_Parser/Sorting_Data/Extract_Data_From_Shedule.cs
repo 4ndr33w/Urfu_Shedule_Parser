@@ -18,50 +18,62 @@ namespace Urfu_Shedule_Parser.Request
 
         public Dictionary<string, int> shedule_collection = new Dictionary<string, int>();
         public List<string> day_shedule = new List<string>();
+
+        List<Shedule_Scheme> shedule_schemes = new List<Shedule_Scheme>();
         string abc = "";
+        int index = 10;
 
 
         public /*Dictionary<string, int>*/  void Split_request_To_days(string data)
         {
-            _response_string = data;
-            string test_string = _response_string;
-            int Day_Sheldue_StartIndex = 0; // test_string.IndexOf("<b>");
-            int Day_Sheldue_EndIndex = Day_Sheldue_StartIndex + 1;
-            string day_sheldue_string = "";
-            int counter = 0;
+            if (data != String.Empty || data != null)
+            {
+                //MessageBox.Show(data.Substring(data.IndexOf("<div class=\"shedule-group-title\">" + 33, 17)));
+                //File.WriteAllText($"D:\\123\\{index ++}.txt", data);
+                //File.WriteAllText($"D:\\123\\{index++}.txt", data.Substring(data.IndexOf("Группа "), 25));
+                _response_string = data;
+                day_shedule.Add(_response_string);
+                string day_shedule_string = day_shedule[day_shedule.Count - 1];
+                int Day_Sheldue_StartIndex = 0; // day_shedule_string.IndexOf("<b>");
+                int Day_Sheldue_EndIndex = Day_Sheldue_StartIndex + 1;
+                string day_sheldue_string = "";
+                int counter = 0;
 
-            int strStart_DurationIndex = 0;
+                int strStart_DurationIndex = 0;
 
-            int counter_of_disciplines_by_day = 0;
-            
+                int counter_of_disciplines_by_day = 0;
 
-            //await Task.Run(() =>
-            //{
+
+                //await Task.Run(() =>
+                //{
 
                 do
                 {
-                    for (int i = test_string.IndexOf("<b>"); i < test_string.Length - 150; i++)
+                    for (int i = day_shedule_string.IndexOf("<b>"); i < day_shedule_string.Length - 150; i++)
                     {
                         counter++;
-                        Day_Sheldue_StartIndex = test_string.IndexOf("<b>", i);
+                        Day_Sheldue_StartIndex = day_shedule_string.IndexOf("<b>", i);
                         i = Day_Sheldue_StartIndex;
 
                         if (Day_Sheldue_StartIndex < 0 && i < 0) return;
-                        Day_Sheldue_EndIndex = test_string.IndexOf("<td colspan=\"3\"> </td>", Day_Sheldue_StartIndex/*"<td colspan=\"3\"> </td>"*/);
+                        Day_Sheldue_EndIndex = day_shedule_string.IndexOf("<td colspan=\"3\"> </td>", Day_Sheldue_StartIndex/*"<td colspan=\"3\"> </td>"*/);
 
-                        day_sheldue_string = test_string.Substring(Day_Sheldue_StartIndex, Day_Sheldue_EndIndex - Day_Sheldue_StartIndex);
+                        day_sheldue_string = day_shedule_string.Substring(Day_Sheldue_StartIndex, Day_Sheldue_EndIndex - Day_Sheldue_StartIndex);
 
                         day_shedule.Add(day_sheldue_string);
-                        Day_Sheldue_StartIndex = test_string.IndexOf("<b>", Day_Sheldue_EndIndex);
+                        Day_Sheldue_StartIndex = day_shedule_string.IndexOf("<b>", Day_Sheldue_EndIndex);
                         abc += day_shedule[day_shedule.Count - 1].ToString();
                         abc += "\n------------------------------------\n";
 
                     }
                 }
                 while (Day_Sheldue_StartIndex > -1 && Day_Sheldue_EndIndex > Day_Sheldue_StartIndex);
+            }
+            else return;
+           
             //});
-            //MessageBox.Show(_response_string.Substring(_response_string.IndexOf("<div class=\"shedule-group-title\">", 17 + 33)));
-            File.WriteAllText(@"D:\00002.txt", abc);
+            //MessageBox.Show(_response_string.Substring(_response_string.IndexOf("<div class=\"shedule-group-title\">" + 33, 17)));
+            //File.WriteAllText(@"D:\00002.txt", abc);
             //MessageBox.Show(/*day_shedule.Count*/counter.ToString());
             //MessageBox.Show(day_shedule.Count.ToString());
             //return day_shedule;
@@ -81,94 +93,6 @@ namespace Urfu_Shedule_Parser.Request
 
 
             //return shedule_collection;
-
-
-
-            //int Day_Sheldue_StartIndex = test_string.IndexOf("colspan=\"3\"><b>");
-            //int Day_Sheldue_EndIndex = test_string.IndexOf("<td colspan=\"3\"> </td>");
-
-            //string day_sheldue_string; // = test_string.Substring(Day_Sheldue_StartIndex, Day_Sheldue_EndIndex - Day_Sheldue_StartIndex - 15);
-
-            //int strStart_DateIndex = getRequest.Response.IndexOf("</div>") + 2;/* */
-            //string[] trimmed_string = getRequest.Response.Trim("</dt>\n</dl>\n</td>\n</tr>");
-
-
-            //----------------------------------------------------------------------------------------------
-
-            //---------------------------------------------------------------------------------------------
-
-            //int strStart_DateIndex = _response_string.IndexOf("<td colspan=\"3\"><b>"/*, strStart_DateIndex*/);     /*\">\n<td colspan = \"3\"><b>*/
-            //int strEnd_DateIndex = _response_string.IndexOf("</b></td>", strStart_DateIndex);/*\">\n<td colspan=\"3\"> </td>\n</tr>*/
-
-            //strStart_DurationIndex = _response_string.IndexOf("<td class=\"shedule-weekday-time\">", strEnd_DateIndex);
-            //int strEnd_DurationIndex = _response_string.IndexOf("</td>", strStart_DurationIndex);
-
-            //int strStart_DisciplineIndex = _response_string.IndexOf("<dd>" + 10, strEnd_DurationIndex - 10);
-            //int strEnd_DisciplineIndex = _response_string.IndexOf("</dd>", strStart_DurationIndex);
-
-
-            ////do
-            ////{
-            //Day_Sheldue_StartIndex = test_string.IndexOf("colspan=\"3\"><b>", Day_Sheldue_EndIndex + 22);
-            //Day_Sheldue_EndIndex = test_string.IndexOf("<td colspan=\"3\"> </td>", Day_Sheldue_StartIndex);
-            //Day_Sheldue_StartIndex = test_string.IndexOf("colspan=\"3\"><b>", Day_Sheldue_EndIndex + 22);
-            //Day_Sheldue_EndIndex = test_string.IndexOf("<td colspan=\"3\"> </td>", Day_Sheldue_StartIndex);
-            //Day_Sheldue_StartIndex = test_string.IndexOf("colspan=\"3\"><b>", Day_Sheldue_EndIndex + 22);
-            //Day_Sheldue_EndIndex = test_string.IndexOf("<td colspan=\"3\"> </td>", Day_Sheldue_StartIndex);
-            //day_sheldue_string = test_string.Substring(Day_Sheldue_StartIndex, Day_Sheldue_EndIndex - Day_Sheldue_StartIndex);
-
-            //if (day_sheldue_string.Length > -1)
-            //{
-            //    if (day_sheldue_string.IndexOf("<td class=\"shedule-weekday-time\">") > -1)
-            //    {
-            //        //do
-            //        //{
-            //        do
-            //        {
-            //            int day_shedule_dateString_StartIndex = day_sheldue_string.IndexOf("colspan=\"3\"><b>"/*, strStart_DateIndex*/);
-
-            //            int day_shedule_dateString_EndIndex = day_sheldue_string.IndexOf("</b></td>"/*, day_shedule_dateString_StartIndex + 1*/);
-
-            //            int day_shedule_durationString_StartIndex = day_sheldue_string.IndexOf("<td class=\"shedule-weekday-time\">", day_shedule_dateString_EndIndex);
-            //            if (day_shedule_durationString_StartIndex > -1)
-            //            {
-            //                int day_shedule_durationString_EndIndex = day_sheldue_string.IndexOf("</td>", day_shedule_durationString_StartIndex);
-
-            //                int day_shedule_Discipline_StartIndex = day_sheldue_string.IndexOf("<dd>", day_shedule_durationString_EndIndex);
-
-            //                int day_shedule_Discipline_EndIndex = day_sheldue_string.IndexOf("</dd>", day_shedule_Discipline_StartIndex);
-
-            //                Scheme1.DateString = day_sheldue_string.Substring(day_shedule_dateString_StartIndex + 15, day_shedule_dateString_EndIndex - day_shedule_dateString_StartIndex - 15);
-            //                Scheme1.Duration = day_sheldue_string.Substring(day_shedule_durationString_StartIndex + 33, day_shedule_durationString_EndIndex - day_shedule_durationString_StartIndex - 33);
-            //                string[] splitted_discipline_string = day_sheldue_string.Substring(day_shedule_Discipline_StartIndex + 4, day_shedule_Discipline_EndIndex - day_shedule_Discipline_StartIndex - 4).Split('\n');
-            //                splitted_discipline_string = splitted_discipline_string.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-            //                splitted_discipline_string = splitted_discipline_string.Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
-
-            //                List<string> Discipline_remove_spaces = new List<string>();
-            //                for (int i = 0; i < splitted_discipline_string.Length; i++)
-            //                {
-            //                    Discipline_remove_spaces.Add(splitted_discipline_string[i]);
-            //                }
-            //                //for (int i = 1; i < Discipline_remove_spaces.Count; i++)
-            //                //{
-            //                //    Scheme1.Discipline += Discipline_remove_spaces[i] + ' ';
-            //                //}
-            //                Scheme1.Discipline = Discipline_remove_spaces[1];
-            //                Day_Sheldue_StartIndex = test_string.IndexOf("colspan=\"3\"><b>", Day_Sheldue_EndIndex);
-            //                if (Day_Sheldue_StartIndex > -1) { Day_Sheldue_EndIndex = test_string.IndexOf("<td colspan=\"3\"> </td>", Day_Sheldue_StartIndex); }
-
-
-            //                Form1.shedule_collection.Add(Scheme1);
-            //                //MessageBox.Show(Scheme1.DateString + "\n" + Scheme1.Duration + "\n" + Scheme1.Discipline + "\n" + Discipline_remove_spaces.Count);
-            //            }
-            //            File.WriteAllText(@"D:\test.txt", Scheme1.ToString());
-            //        }
-            //        while (day_sheldue_string.IndexOf("<td class=\"shedule-weekday-time\">") > -1);
-            //        //}
-            //        //while (Day_Sheldue_StartIndex > -1);
-
-            //    }
-            //}
         }
 
         public List<string> Get_Splitted_Data()
@@ -179,8 +103,8 @@ namespace Urfu_Shedule_Parser.Request
                 abc += "\n------------------------------------\n";
             }
             //MessageBox.Show(day_shedule.Count.ToString());
-
-            File.WriteAllText(@"D:\00001.txt", abc);
+            //MessageBox.Show(_response_string.Substring(_response_string.IndexOf("<div class=\"shedule-group-title\">" + 33, 17)));
+            //File.WriteAllText(@"D:\00001.txt", abc);
             return day_shedule;
             
         }

@@ -27,13 +27,13 @@ namespace Urfu_Shedule_Parser.Request
             //event_timer.Elapsed += get_data;
         }
 
-        public string get_data()
+        public List<string> get_data()
         {
             //try
             //{
             //    await Task.Run(() =>
             //    {
-            string returned_request_string = "";
+            List<string> returned_request_string = new List<string>(); ;
             //MainWindow Form1 = new MainWindow();
             Shedule_Scheme Scheme1 = new Shedule_Scheme();
 
@@ -73,49 +73,57 @@ namespace Urfu_Shedule_Parser.Request
 
 
 
-                for (int i = 0; i < 5000; i++)
+                for (int i = 985830; i < 985835; i++)
                 {
-                    //Thread.Sleep(1000);
-                    //_group_url = _group_number ++.ToString();
+                    Thread.Sleep(1000);
+                    _group_url = i.ToString();
+
+                    // ------------------------------------------------------------------------------------
+
+                    var getRequest = new GetRequest(Properties.Resources.Shedule_url + @"/" + _group_url + @"/" + _group_week_date);
+                    if (getRequest == null) MessageBox.Show("Request_null");
+
+                    if (getRequest != null)
+                    {
+                        //postRequest.Proxy = proxy;
+
+                        getRequest.Accept = "text/html, */*; q=0.01";
+                        getRequest.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36";
+
+                        getRequest.Referer = "https://urfu.ru/ru/students/study/schedule/";
+
+                        getRequest.Headers.Add("sec-ch-ua", "\" Not A; Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"");
+                        getRequest.Headers.Add("sec-ch-ua-mobile", "?0");
+                        getRequest.Headers.Add("sec-ch-ua-platform", "\"Windows\"");
+                        getRequest.Headers.Add("Sec-Fetch-Dest", "empty");
+                        getRequest.Headers.Add("Sec-Fetch-Mode", "cors");
+                        getRequest.Headers.Add("Sec-Fetch-Site", "same-origin");
+
+                        getRequest.Host = "urfu.ru";
+
+                        getRequest.Run(Get_cookieContainer);
+
+
+                        //File.WriteAllText($"D:\\123\\{i}.txt", getRequest.Response);
+
+                        //Form1.Institute_ComboBox.Items.Add("");
+
+                        //var string test_string = getRequest.Response.IndexOf("div class=\"shedule-group-title"); 
+                        //returned_request_string = getRequest.Response;
+
+                        /*return */
+                        returned_request_string.Add(getRequest.Response);
+                    }
+                    //File.WriteAllText(@"D:\122.txt", returned_request_string);
+
+
+                    else /*return */returned_request_string.Add(string.Empty);
                 }
 
-                var getRequest = new GetRequest(Properties.Resources.Shedule_url + @"/" + _group_url + @"/" + _group_week_date);
-                if (getRequest == null) MessageBox.Show("Request_null");
-
-                if (getRequest != null)
-                {
-                    //postRequest.Proxy = proxy;
-
-                    getRequest.Accept = "text/html, */*; q=0.01";
-                    getRequest.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36";
-
-                    getRequest.Referer = "https://urfu.ru/ru/students/study/schedule/";
-
-                    getRequest.Headers.Add("sec-ch-ua", "\" Not A; Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"");
-                    getRequest.Headers.Add("sec-ch-ua-mobile", "?0");
-                    getRequest.Headers.Add("sec-ch-ua-platform", "\"Windows\"");
-                    getRequest.Headers.Add("Sec-Fetch-Dest", "empty");
-                    getRequest.Headers.Add("Sec-Fetch-Mode", "cors");
-                    getRequest.Headers.Add("Sec-Fetch-Site", "same-origin");
-
-                    getRequest.Host = "urfu.ru";
-
-                    getRequest.Run(Get_cookieContainer);
-
-
-                    //File.WriteAllText(@"D:\111.txt", returned_request_string);
-
-                    //Form1.Institute_ComboBox.Items.Add("");
-
-                    //var string test_string = getRequest.Response.IndexOf("div class=\"shedule-group-title"); 
-                    returned_request_string = getRequest.Response;
-
-
-                }
-                //File.WriteAllText(@"D:\122.txt", returned_request_string);
-                return returned_request_string = getRequest.Response;
             }
-            else return string.Empty;
+            return returned_request_string;
+
+
             //    });
 
             //}

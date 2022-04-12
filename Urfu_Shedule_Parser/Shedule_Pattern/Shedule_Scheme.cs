@@ -25,19 +25,36 @@ namespace Urfu_Shedule_Parser
 
         public Shedule_Scheme()
         {
-            _date = DateTime.Now;
-            _date_string = _date.ToShortDateString();
-
+            //_date = DateTime.Now;
+            //_date_string = _date.ToShortDateString();
+            _lessons = new ObservableCollection<Lesson_Pattern>();
             _group_name = "";
         }
         public Shedule_Scheme(Shedule_Scheme data)
         {
-            _date = data.Date;
-            _date_string = data.DateString;
-
+            //string[] date_convert_from_string = data.DateString.Split(' ');
+            //_date = Convert.ToDateTime(date_convert_from_string[0] + "." + date_convert_from_string[1] + '.' + DateTime.Now.Year);
+            //_date_string = data.DateString;
+            _lessons = data.Get_Lessons;
             _group_name = data.GroupName;
         }
 
+        public Shedule_Scheme(string group_name, /*string date_string,*/ ObservableCollection<Lesson_Pattern> lesson_collection)
+        {
+            //string[] date_convert_from_string = date_string.Split(' ');
+            //_date = Convert.ToDateTime(date_convert_from_string[0] + "." + date_convert_from_string[1] + '.' + DateTime.Now.Year);
+            //_date_string = date_string;
+            _lessons = lesson_collection;
+            _group_name = group_name;
+        }
+        public Shedule_Scheme(string group_name, /*string date_string,*/ Lesson_Pattern lesson)
+        {
+            //string[] date_convert_from_string = date_string.Split(' ');
+            //_date =  Convert.ToDateTime(date_convert_from_string[0] + "." + date_convert_from_string[1] + '.' + DateTime.Now.Year);
+            //_date_string = date_string;
+            _lessons.Add(lesson);
+            _group_name = group_name;
+        }
         //public override string ToString()
         //{
         //    return this.DateString + ' ' + this.Duration + ' ' + this.Discipline + "\n";
