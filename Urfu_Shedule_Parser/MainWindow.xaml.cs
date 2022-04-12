@@ -28,8 +28,8 @@ namespace Urfu_Shedule_Parser
         int next_week;
         public List<string> Shedule_list = new List<string>();
 
-        Shedule_Scheme shedule = new Shedule_Scheme();
-        public ObservableCollection<Shedule_Scheme> shedule_collection = new ObservableCollection<Shedule_Scheme>();
+        One_Day_Pattern shedule = new One_Day_Pattern();
+        public ObservableCollection<One_Day_Pattern> shedule_collection = new ObservableCollection<One_Day_Pattern>();
         public MainWindow()
         {
             InitializeComponent();

@@ -56,12 +56,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Shedule_Pattern\Lesson_Pattern.cs" />
-    <Compile Include="Shedule_Pattern\Shedule_For_Group.cs" />
+    <Compile Include="Shedule_Pattern\Weekly_Shedule_Pattern.cs" />
     <Compile Include="Sorting_Data\Extract_Data_From_Shedule.cs" />
     <Compile Include="Request\GetRequest.cs" />
     <Compile Include="Request\Get_Data.cs" />
     <Compile Include="Request\PostRequest.cs" />
-    <Compile Include="Shedule_Pattern\Shedule_Scheme.cs" />
+    <Compile Include="Shedule_Pattern\One_Day_Pattern.cs" />
     <Compile Include="Sorting_Data\Sort_Data.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -19,7 +19,7 @@ namespace Urfu_Shedule_Parser.Request
         public Dictionary<string, int> shedule_collection = new Dictionary<string, int>();
         public List<string> day_shedule = new List<string>();
 
-        List<Shedule_Scheme> shedule_schemes = new List<Shedule_Scheme>();
+        List<One_Day_Pattern> shedule_schemes = new List<One_Day_Pattern>();
         string abc = "";
         int index = 10;
 
@@ -46,10 +46,10 @@ namespace Urfu_Shedule_Parser.Request
 
                 //await Task.Run(() =>
                 //{
-
+                string _shedule = "";
                 do
                 {
-                    for (int i = day_shedule_string.IndexOf("<b>"); i < day_shedule_string.Length - 150; i++)
+                    for (int i = day_shedule_string.IndexOf("<b>"); i < day_shedule_string.Length - 100; i++)
                     {
                         counter++;
                         Day_Sheldue_StartIndex = day_shedule_string.IndexOf("<b>", i);
@@ -59,11 +59,17 @@ namespace Urfu_Shedule_Parser.Request
                         Day_Sheldue_EndIndex = day_shedule_string.IndexOf("<td colspan=\"3\"> </td>", Day_Sheldue_StartIndex/*"<td colspan=\"3\"> </td>"*/);
 
                         day_sheldue_string = day_shedule_string.Substring(Day_Sheldue_StartIndex, Day_Sheldue_EndIndex - Day_Sheldue_StartIndex);
+                        day_sheldue_string += "\n--------------------------------------------------------------------------------------------------\n" +
+                            "\n--------------------------------------------------------------------------------------------------\n";
 
                         day_shedule.Add(day_sheldue_string);
+                        _shedule += day_sheldue_string;
                         Day_Sheldue_StartIndex = day_shedule_string.IndexOf("<b>", Day_Sheldue_EndIndex);
-                        abc += day_shedule[day_shedule.Count - 1].ToString();
-                        abc += "\n------------------------------------\n";
+                        //abc += day_shedule[day_shedule.Count - 1].ToString();
+                        //abc += "\n------------------------------------\n";
+
+                        Sorting_Data.Sort_Data test = new Sorting_Data.Sort_Data();
+                        test.Sorting_one_day(_response_string, counter);
 
                     }
                 }

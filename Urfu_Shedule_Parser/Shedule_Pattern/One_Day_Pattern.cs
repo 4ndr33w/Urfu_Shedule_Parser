@@ -8,7 +8,7 @@ using Urfu_Shedule_Parser.Shedule_Pattern;
 
 namespace Urfu_Shedule_Parser
 {
-    public class Shedule_Scheme
+    public class One_Day_Pattern
     {
         private DateTime _date;
         private string _date_string;
@@ -23,31 +23,31 @@ namespace Urfu_Shedule_Parser
 
         public string GroupName { get { return _group_name; } set { _group_name = value; } }
 
-        public Shedule_Scheme()
+        public One_Day_Pattern()
         {
-            //_date = DateTime.Now;
-            //_date_string = _date.ToShortDateString();
+            _date = DateTime.Now;
+            _date_string = _date.ToShortDateString();
             _lessons = new ObservableCollection<Lesson_Pattern>();
             _group_name = "";
         }
-        public Shedule_Scheme(Shedule_Scheme data)
+        public One_Day_Pattern(One_Day_Pattern data)
         {
-            //string[] date_convert_from_string = data.DateString.Split(' ');
-            //_date = Convert.ToDateTime(date_convert_from_string[0] + "." + date_convert_from_string[1] + '.' + DateTime.Now.Year);
-            //_date_string = data.DateString;
+            string[] date_convert_from_string = data.DateString.Split(' ');
+            _date = Convert.ToDateTime(date_convert_from_string[0] + "." + date_convert_from_string[1] + '.' + DateTime.Now.Year);
+            _date_string = data.DateString;
             _lessons = data.Get_Lessons;
             _group_name = data.GroupName;
         }
 
-        public Shedule_Scheme(string group_name, /*string date_string,*/ ObservableCollection<Lesson_Pattern> lesson_collection)
+        public One_Day_Pattern(string group_name, string date_string, ObservableCollection<Lesson_Pattern> lesson_collection)
         {
-            //string[] date_convert_from_string = date_string.Split(' ');
-            //_date = Convert.ToDateTime(date_convert_from_string[0] + "." + date_convert_from_string[1] + '.' + DateTime.Now.Year);
-            //_date_string = date_string;
+            string[] date_convert_from_string = date_string.Split(' ');
+            _date = Convert.ToDateTime(date_convert_from_string[0] + "." + date_convert_from_string[1] + '.' + DateTime.Now.Year);
+            _date_string = date_string;
             _lessons = lesson_collection;
             _group_name = group_name;
         }
-        public Shedule_Scheme(string group_name, /*string date_string,*/ Lesson_Pattern lesson)
+        public One_Day_Pattern(string group_name, /*string date_string,*/ Lesson_Pattern lesson)
         {
             //string[] date_convert_from_string = date_string.Split(' ');
             //_date =  Convert.ToDateTime(date_convert_from_string[0] + "." + date_convert_from_string[1] + '.' + DateTime.Now.Year);

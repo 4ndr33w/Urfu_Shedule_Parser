@@ -35,7 +35,7 @@ namespace Urfu_Shedule_Parser.Request
             //    {
             List<string> returned_request_string = new List<string>(); ;
             //MainWindow Form1 = new MainWindow();
-            Shedule_Scheme Scheme1 = new Shedule_Scheme();
+            One_Day_Pattern Scheme1 = new One_Day_Pattern();
 
 
             var proxy = new WebProxy("127.0.0.1:8888");
@@ -73,7 +73,7 @@ namespace Urfu_Shedule_Parser.Request
 
 
 
-                for (int i = 985830; i < 985835; i++)
+                for (int i = 985831; i < 985832; i++)
                 {
                     Thread.Sleep(1000);
                     _group_url = i.ToString();
