@@ -29,10 +29,6 @@ namespace Urfu_Shedule_Parser.Request
 
         public List<string> get_data()
         {
-            //try
-            //{
-            //    await Task.Run(() =>
-            //    {
             List<string> returned_request_string = new List<string>(); ;
             //MainWindow Form1 = new MainWindow();
             One_Day_Pattern Scheme1 = new One_Day_Pattern();
@@ -103,15 +99,6 @@ namespace Urfu_Shedule_Parser.Request
 
                         getRequest.Run(Get_cookieContainer);
 
-
-                        //File.WriteAllText($"D:\\123\\{i}.txt", getRequest.Response);
-
-                        //Form1.Institute_ComboBox.Items.Add("");
-
-                        //var string test_string = getRequest.Response.IndexOf("div class=\"shedule-group-title"); 
-                        //returned_request_string = getRequest.Response;
-
-                        /*return */
                         returned_request_string.Add(getRequest.Response);
                     }
                     //File.WriteAllText(@"D:\122.txt", returned_request_string);
@@ -119,28 +106,8 @@ namespace Urfu_Shedule_Parser.Request
 
                     else /*return */returned_request_string.Add(string.Empty);
                 }
-
             }
             return returned_request_string;
-
-
-            //    });
-
-            //}
-            //catch (Exception)
-            //{
-
-            //    throw;
-            //}
-
-
-            //return returned_request_string;
         }
-
-        //public string Return_Request_String()
-        //{
-        //    File.WriteAllText(@"D:\222.txt", returned_request_string);
-        //    return returned_request_string;
-        //}
     }
 }

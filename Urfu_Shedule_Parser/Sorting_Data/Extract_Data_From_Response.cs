@@ -6,36 +6,40 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Windows;
 using System.Threading;
+using System.Collections.ObjectModel;
+using Urfu_Shedule_Parser.Shedule_Pattern;
 
 namespace Urfu_Shedule_Parser.Request
 {
-    public class Extract_Data_From_Shedule
+    public class Extract_Data_From_Response
     {
-        //Get_Data get_Data = new Get_Data();
-        //Shedule_Scheme Scheme1 = new Shedule_Scheme();
         MainWindow Form1 = new MainWindow();
         string _response_string = ""; // get_Data.Return_Request_String();
+        public ObservableCollection<Weekly_Shedule_Pattern> Weekly_Shedule = new ObservableCollection<Weekly_Shedule_Pattern>();
+
 
         public Dictionary<string, int> shedule_collection = new Dictionary<string, int>();
         public List<string> day_shedule = new List<string>();
 
-        List<One_Day_Pattern> shedule_schemes = new List<One_Day_Pattern>();
+        ObservableCollection<One_Day_Pattern> daily_shedule = new ObservableCollection<One_Day_Pattern>();
         string abc = "";
         int index = 10;
+        string _group_name = "";
 
 
         public /*Dictionary<string, int>*/  void Split_request_To_days(string data)
         {
             if (data != String.Empty || data != null)
             {
-                //MessageBox.Show(data.Substring(data.IndexOf("<div class=\"shedule-group-title\">" + 33, 17)));
-                //File.WriteAllText($"D:\\123\\{index ++}.txt", data);
-                //File.WriteAllText($"D:\\123\\{index++}.txt", data.Substring(data.IndexOf("Группа "), 25));
                 _response_string = data;
                 day_shedule.Add(_response_string);
+                string _date_string = data.Substring(data.IndexOf("<b>") + 3, data.IndexOf("</b>") - data.IndexOf("<b>") - 3);
                 string day_shedule_string = day_shedule[day_shedule.Count - 1];
                 int Day_Sheldue_StartIndex = 0; // day_shedule_string.IndexOf("<b>");
                 int Day_Sheldue_EndIndex = Day_Sheldue_StartIndex + 1;
+
+                string[] group_name_split = _response_string.Substring(data.IndexOf("Группа "), 25).Split(' ');
+                _group_name = group_name_split[0] + ' ' + group_name_split[1];
                 string day_sheldue_string = "";
                 int counter = 0;
 
@@ -43,17 +47,15 @@ namespace Urfu_Shedule_Parser.Request
 
                 int counter_of_disciplines_by_day = 0;
 
-
-                //await Task.Run(() =>
-                //{
                 string _shedule = "";
                 do
                 {
                     for (int i = day_shedule_string.IndexOf("<b>"); i < day_shedule_string.Length - 100; i++)
                     {
                         counter++;
+                        
                         Day_Sheldue_StartIndex = day_shedule_string.IndexOf("<b>", i);
-                        i = Day_Sheldue_StartIndex;
+                        i = Day_Sheldue_StartIndex + 5;
 
                         if (Day_Sheldue_StartIndex < 0 && i < 0) return;
                         Day_Sheldue_EndIndex = day_shedule_string.IndexOf("<td colspan=\"3\"> </td>", Day_Sheldue_StartIndex/*"<td colspan=\"3\"> </td>"*/);
@@ -69,11 +71,12 @@ namespace Urfu_Shedule_Parser.Request
                         //abc += "\n------------------------------------\n";
 
                         Sorting_Data.Sort_Data test = new Sorting_Data.Sort_Data();
-                        test.Sorting_one_day(_response_string, counter);
+                        daily_shedule.Add(new One_Day_Pattern(_group_name, _date_string, test.Sort_Day_String(day_sheldue_string)));// test.Sort_Day_String(day_sheldue_string);
 
                     }
                 }
                 while (Day_Sheldue_StartIndex > -1 && Day_Sheldue_EndIndex > Day_Sheldue_StartIndex);
+                Weekly_Shedule.Add(new Weekly_Shedule_Pattern(_group_name, daily_shedule));
             }
             else return;
            

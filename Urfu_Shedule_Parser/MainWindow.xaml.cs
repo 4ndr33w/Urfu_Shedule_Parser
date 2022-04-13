@@ -55,7 +55,7 @@ namespace Urfu_Shedule_Parser
             Request.Get_Data run_test = new Request.Get_Data();
             //Request.Extract_Data_From_Shedule(run_test);
             //Sorting_Data.ExtraExtract_Data_From_Shedule extract_datas = new Request.Extract_Data_From_Shedule();
-            Request.Extract_Data_From_Shedule extract_datas = new Request.Extract_Data_From_Shedule();
+            Request.Extract_Data_From_Response extract_datas = new Request.Extract_Data_From_Response();
 
             //File.WriteAllText(@"D:\555.txt" , run_test.get_data());
             

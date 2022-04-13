@@ -57,7 +57,7 @@
     </ApplicationDefinition>
     <Compile Include="Shedule_Pattern\Lesson_Pattern.cs" />
     <Compile Include="Shedule_Pattern\Weekly_Shedule_Pattern.cs" />
-    <Compile Include="Sorting_Data\Extract_Data_From_Shedule.cs" />
+    <Compile Include="Sorting_Data\Extract_Data_From_Response.cs" />
     <Compile Include="Request\GetRequest.cs" />
     <Compile Include="Request\Get_Data.cs" />
     <Compile Include="Request\PostRequest.cs" />
