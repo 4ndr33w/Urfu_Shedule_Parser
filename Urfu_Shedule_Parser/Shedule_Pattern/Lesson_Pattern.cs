@@ -48,18 +48,18 @@ namespace Urfu_Shedule_Parser.Shedule_Pattern
         public Lesson_Pattern()
         {
             //string[] date_convert_from_string = data.DateString.Split(' ');
-            _date = DateTime.Now;// Convert.ToDateTime(date_convert_from_string[0] + "." + date_convert_from_string[1] + '.' + DateTime.Now.Year);
+            _date = default;// Convert.ToDateTime(date_convert_from_string[0] + "." + date_convert_from_string[1] + '.' + DateTime.Now.Year);
             //_date_string = date_string;
-            _date_string = ""; // data.DateString;
-            _start_time = DateTime.Now;// = data.StartTime;
-            _End_time = DateTime.Now;// = data.EndTime;
-            _duration = "";// data.Duration;
-            _lesson_type = "";// data.Lesson_Type;
+            _date_string = default; // data.DateString;
+            _start_time = default;// = data.StartTime;
+            _End_time = default;// = data.EndTime;
+            _duration = default;// data.Duration;
+            _lesson_type = default;// data.Lesson_Type;
 
-            _chamber = "";// data.Chamber;
-            _discipline_name = "";// data.Discipline;
+            _chamber = default;// data.Chamber;
+            _discipline_name = default;// data.Discipline;
             //_date = Convert.ToDateTime(data.DateString);
-            _teacher_name = "";// data.Teacher;
+            _teacher_name = default;// data.Teacher;
             //_start_time = Convert.ToDateTime(data.StartTime);
         }
     }
