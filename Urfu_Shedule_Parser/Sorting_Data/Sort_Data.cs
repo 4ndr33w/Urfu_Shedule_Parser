@@ -111,81 +111,83 @@ namespace Urfu_Shedule_Parser.Sorting_Data
                 //{
                     _day = data.Substring(StartIndex);
 
+                int _duration_StartIndex = _day.IndexOf("time\">", _day.IndexOf("</td>"));
+                while (_duration_StartIndex > 0)
+                {
+                    _duration_StartIndex = _day.IndexOf("time\">", _day.IndexOf("</td>"));
+
+                    if (_duration_StartIndex > -1 && _day.IndexOf("</td>", _duration_StartIndex) > _duration_StartIndex)
+                    {
+                        int _duration_EndIndex = _day.IndexOf("</td>", _duration_StartIndex);
+                        _lesson.Duration = _day.Substring(_duration_StartIndex + 6, _duration_EndIndex - _duration_StartIndex - 6);
+                        test += _lesson.Duration;
+                        test += "\n-----Duration------\n";
+
+                        int _disciple_StartIndex = _day.IndexOf("<dd>", _duration_EndIndex);
+                        int _disciple_EndIndex = _day.IndexOf("</dd>", _disciple_StartIndex);
+                        if (_day.IndexOf("</dd>") > _day.IndexOf("<dd>"))
+                        {
+                            string _discipline = _day.Substring(_disciple_StartIndex + 4, _disciple_EndIndex - _disciple_StartIndex - 4);
+                            string[] _discipline_splitted = _discipline.Split(' ').Where(x => !String.IsNullOrWhiteSpace(x)).ToArray();
+                            _discipline = "";
+
+                            for (int i = 0; i < _discipline_splitted.Length; i++)
+                            {
+                                _discipline += _discipline_splitted[i];
+                            }
+                            char[] Array_of_discipline_symbols = new char[_discipline.Length];
+                            string _temporary_discipline_string = "";
+
+                            // строка содержит излишнее количество пробелов и разделителей и пустых строк, которые 
+                            // не убираются полностью выше применённым методом "_discipline.Split(' ').Where(x => !String.IsNullOrWhiteSpace(x)).ToArray(); "
+                            // по этому оставшиеся пустые места буду убирать вручную
+                            //for (int i = 0; i < _discipline.Length - 1; i++)
+                            //{
+                            //    if (_discipline[i] != ' ' && _discipline[i + 1] != ' ') { _temporary_discipline_string.Append(_discipline[i]); }
+                            //}
+                            _lesson.Discipline = _discipline; // _temporary_discipline_string;
+                            test += _lesson.Discipline;
+                            test += "\n-----Discipline-----\n";
+                            _day = _day.Substring(_day.IndexOf("</dd>"));
+                            string _cabinet = _day.Substring(_day.IndexOf("<span class='\"cabinet\">") + 22, _day.IndexOf("</span>") - _day.IndexOf("<span class='\"cabinet\">") - 22);
+                            string[] _cabinet_splitted = _cabinet.Split(' ').Where(c => !String.IsNullOrWhiteSpace(c)).ToArray();
+                            _cabinet = "";
+
+                            for (int i = 0; i < _cabinet_splitted.Length; i++)
+                            {
+                                _cabinet += _cabinet_splitted[i] + ' ';
+                            }
+                            char[] Array_of_cabinet_symbols = new char[_cabinet.Length];
+                            string _temporary_cabinet_string = "";
+                            //for (int i = 0; i < _cabinet.Length - 1; i++)
+                            //{
+                            //    if (_cabinet[i] != ' ' && _cabinet[i + 1] != ' ') { _temporary_cabinet_string.Append(_cabinet[i]); }
+                            //}
+                            _lesson.Chamber = _cabinet; // _temporary_cabinet_string;
+                            test += _lesson.Chamber;
+                            test += "\n------Chamber------\n";
+                            _day = _day.Substring(_day.IndexOf("</span>"));
+
+                            int _teacher_StartIndex = _day.IndexOf("<span class=\"teacher\">");
+                            if (_teacher_StartIndex < 0) { return _one_day = new One_Day_Pattern(_date_string, _lesson); }
+                            int _teacher_EndIndex = _day.IndexOf("</span>", _teacher_StartIndex);
+
+                            _lesson.Teacher = _day.Substring(_teacher_StartIndex + 22, _teacher_EndIndex - _teacher_StartIndex - 22);
+                            test += _lesson.Teacher;
+                            test += "\n-------Teacher-------\n";
+                            StartIndex = _day.IndexOf("</span>");
+                            _day = _day.Substring(_day.IndexOf("</span>"));
+                            _lessons_list_of_day.Add(new Lesson_Pattern(_lesson));
+                            test += "\n------------------\n";
+                            test += "\n------------------\n";
+
+                            //_one_day_shedule.Add(new One_Day_Pattern(_date_string, _lessons_list_of_day));
+                        }
+                    }
+                }
                 //_day = _day.Substring(StartIndex);
                 //if (_day.IndexOf("</td>", _day.IndexOf("time\">")) > _day.IndexOf("time\">"))
                 //{
-                int _duration_StartIndex = _day.IndexOf("time\">");
-                
-                if (_duration_StartIndex > -1 && _day.IndexOf("</td>", _duration_StartIndex) > _duration_StartIndex)
-                {
-                    int _duration_EndIndex = _day.IndexOf("</td>", _duration_StartIndex);
-                    _lesson.Duration = _day.Substring(_duration_StartIndex + 6, _duration_EndIndex - _duration_StartIndex - 6);
-                    test += _lesson.Duration;
-                    test += "\n-----Duration------\n";
-
-                    int _disciple_StartIndex = _day.IndexOf("<dd>", _duration_EndIndex);
-                    int _disciple_EndIndex  = _day.IndexOf("</dd>", _disciple_StartIndex);
-                    if (_day.IndexOf("</dd>") > _day.IndexOf("<dd>"))
-                    {
-                        string _discipline = _day.Substring(_disciple_StartIndex + 4, _disciple_EndIndex - _disciple_StartIndex - 4);
-                        string[] _discipline_splitted = _discipline.Split(' ').Where(x => !String.IsNullOrWhiteSpace(x)).ToArray();
-                        _discipline = "";
-
-                        for (int i = 0; i < _discipline_splitted.Length; i++)
-                        {
-                            _discipline += _discipline_splitted[i];
-                        }
-                        char[] Array_of_discipline_symbols = new char[_discipline.Length];
-                        string _temporary_discipline_string = "";
-
-                        // строка содержит излишнее количество пробелов и разделителей и пустых строк, которые 
-                        // не убираются полностью выше применённым методом "_discipline.Split(' ').Where(x => !String.IsNullOrWhiteSpace(x)).ToArray(); "
-                        // по этому оставшиеся пустые места буду убирать вручную
-                        for (int i = 0; i < _discipline.Length - 1; i++)
-                        {
-                            if (_discipline[i] != ' ' && _discipline[i + 1] != ' ') { _temporary_discipline_string.Append(_discipline[i]); }
-                        }
-                        _lesson.Discipline = _temporary_discipline_string;
-                        test += _lesson.Discipline;
-                        test += "\n-----Discipline-----\n";
-                        _day = _day.Substring(_day.IndexOf("</dd>"));
-                        string _cabinet = _day.Substring(_day.IndexOf("<span class='\"cabinet\">") + 22, _day.IndexOf("</span>") - _day.IndexOf("<span class='\"cabinet\">") - 22);
-                        string[] _cabinet_splitted = _cabinet.Split(' ').Where(c => !String.IsNullOrWhiteSpace(c)).ToArray();
-                        _cabinet = "";
-
-                        for (int i = 0; i < _cabinet_splitted.Length; i++)
-                        {
-                            _cabinet += _cabinet_splitted[i];
-                        }
-                        char[] Array_of_cabinet_symbols = new char[_cabinet.Length];
-                        string _temporary_cabinet_string = "";
-                        for (int i = 0; i < _cabinet.Length - 1; i++)
-                        {
-                            if (_cabinet[i] != ' ' && _cabinet[i + 1] != ' ') { _temporary_cabinet_string.Append(_cabinet[i]); }
-                        }
-                        _lesson.Chamber = _temporary_cabinet_string;
-                        test += _lesson.Chamber;
-                        test += "\n------Chamber------\n";
-                        _day = _day.Substring(_day.IndexOf("</span>"));
-
-                        int _teacher_StartIndex = _day.IndexOf("<span class=\"teacher\">");
-                        int _teacher_EndIndex = _day.IndexOf("</span>", _teacher_StartIndex);
-
-                        _lesson.Teacher = _day.Substring(_teacher_StartIndex + 22, _teacher_EndIndex - _teacher_StartIndex - 22);
-                        test += _lesson.Teacher;
-                        test += "\n-------Teacher-------\n";
-                        StartIndex = _day.IndexOf("</span>");
-                        _day = _day.Substring(_day.IndexOf("</span>"));
-                        _lessons_list_of_day.Add(new Lesson_Pattern(_lesson));
-                        test += "\n------------------\n";
-                        test += "\n------------------\n";
-
-
-                        //_one_day_shedule.Add(new One_Day_Pattern(_date_string, _lessons_list_of_day));
-
-                    }
-                }
-               
                         //}
                     //}
                    
