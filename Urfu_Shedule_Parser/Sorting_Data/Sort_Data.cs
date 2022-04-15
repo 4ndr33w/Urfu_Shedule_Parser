@@ -23,7 +23,7 @@ namespace Urfu_Shedule_Parser.Sorting_Data
         string test = "";
         int _test_counter = 0;
 
-        public /*ObservableCollection<*/Weekly_Shedule_Pattern/*>*/ Weekly_Shedule_Sort(string data)
+        public Weekly_Shedule_Pattern Weekly_Shedule_Sort(string data)
         {
             _response = data;
             string[] group_splitted = _response.Substring(_response.IndexOf("Группа "), 25).Split(' ');
@@ -55,10 +55,10 @@ namespace Urfu_Shedule_Parser.Sorting_Data
             return Week_Shedule_List = new Weekly_Shedule_Pattern(_group_name, _one_day_shedule); //Groups_Shedule_Collection;
         }
 
-        private /*ObservableCollection<*/One_Day_Pattern/*>*/ Dayly_Shedule_Sort(string data)
+        private One_Day_Pattern Dayly_Shedule_Sort(string data)
         {
             string _day = data;
-            int StartIndex = _day.IndexOf("<b>"); // > -1 ? _day.IndexOf("<b>") : -1;
+            int StartIndex = _day.IndexOf("<b>");
             int EndIndex = _day.IndexOf("</b>");
             string _date_string = _day.Substring(StartIndex + 3, EndIndex - StartIndex - 3);
 
@@ -93,14 +93,14 @@ namespace Urfu_Shedule_Parser.Sorting_Data
 
                             for (int i = 0; i < _discipline_splitted.Length; i++)
                             {
-                                _discipline += _discipline_splitted[i];
+                                _discipline += _discipline_splitted[i] + " "; 
                             }
                             char[] Array_of_discipline_symbols = new char[_discipline.Length];
                             string _temporary_discipline_string = "";
 
                             // строка содержит излишнее количество пробелов и разделителей и пустых строк, которые 
-                            // не убираются полностью выше применённым методом "_discipline.Split(' ').Where(x => !String.IsNullOrWhiteSpace(x)).ToArray(); "
-                            // по этому оставшиеся пустые места буду убирать вручную
+                            // после "_discipline.Split(' ').Where(x => !String.IsNullOrWhiteSpace(x)).ToArray(); "
+                            // остаются пара пустых строк
 
                             _lesson.Discipline = _discipline; // _temporary_discipline_string;
                             test += _lesson.Discipline;
@@ -114,13 +114,19 @@ namespace Urfu_Shedule_Parser.Sorting_Data
                             test += _lesson.Lesson_Type;
                             test += "\n------Lesson_Type------\n";
                             _day = _day.Substring(_day.IndexOf("</span>") + 7);
-                            //_day = _day.Substring(_day.IndexOf("<span class="));
 
                             int _cabinet_StartIndex = _day.IndexOf("cabinet\">");
-                            if (_cabinet_StartIndex < 0 || _day.IndexOf("</span>") - _cabinet_StartIndex < 0) { return _one_day = new One_Day_Pattern(_date_string, _lesson); } // _day.IndexOf("</span>");  }
-                            int _cabinet_EndIndex = _day.IndexOf("</span>");
-                            //if (_cabinet_EndIndex - _cabinet_StartIndex > 0)
-                            //{
+                            if (_cabinet_StartIndex < 0 || _day.IndexOf("</span>") - _cabinet_StartIndex < 0)
+                            {
+                                _lesson.Chamber = "Online";
+                                //_cabinet_StartIndex = _day.IndexOf("</span>") - 100;
+                                /*return _one_day = new One_Day_Pattern(_date_string, _lesson);*/ // _day.IndexOf("</span>");
+                            }
+                            else
+                            {
+                                int _cabinet_EndIndex = _day.IndexOf("</span>");
+                                //if (_cabinet_EndIndex - _cabinet_StartIndex > 0)
+                                //{
                                 string _cabinet = _day.Substring(_cabinet_StartIndex + 22, _cabinet_EndIndex - _cabinet_StartIndex - 22);
                                 string[] _cabinet_splitted = _cabinet.Split(' ').Where(c => !String.IsNullOrWhiteSpace(c)).ToArray();
                                 _cabinet = "";
@@ -133,19 +139,28 @@ namespace Urfu_Shedule_Parser.Sorting_Data
                                 string _temporary_cabinet_string = "";
 
                                 _lesson.Chamber = _cabinet; // _temporary_cabinet_string;
+                                _day = _day.Substring(_day.IndexOf("</span>", _cabinet_StartIndex));
+                            }
                                 test += _lesson.Chamber;
                                 test += "\n------Chamber------\n";
-                                _day = _day.Substring(_day.IndexOf("</span>"));
 
-                                int _teacher_StartIndex = _day.IndexOf("<span class=\"teacher\">");
-                                if (_teacher_StartIndex < 0) { return _one_day = new One_Day_Pattern(_date_string, _lesson); }
+                            int _teacher_StartIndex = _day.IndexOf("<span class=\"teacher\">");
+                                if (_teacher_StartIndex < 0) 
+                            {
+                                _lesson.Teacher = "";
+                                //_teacher_StartIndex = _day.IndexOf("</span>", _teacher_StartIndex) - 50;
+                                /*return _one_day = new One_Day_Pattern(_date_string, _lesson);*/ 
+                            }
+                                else
+                            {
                                 int _teacher_EndIndex = _day.IndexOf("</span>", _teacher_StartIndex);
-
                                 _lesson.Teacher = _day.Substring(_teacher_StartIndex + 22, _teacher_EndIndex - _teacher_StartIndex - 22);
+                                StartIndex = _day.IndexOf("</span>");
+                                _day = _day.Substring(_day.IndexOf("</span>", _teacher_StartIndex));
+                            }
                                 test += _lesson.Teacher;
                                 test += "\n-------Teacher-------\n";
-                                StartIndex = _day.IndexOf("</span>");
-                                _day = _day.Substring(_day.IndexOf("</span>"));
+                               
                                 _lessons_list_of_day.Add(new Lesson_Pattern(_lesson));
                                 test += "\n------------------\n";
                                 test += "\n------------------\n";
@@ -154,7 +169,7 @@ namespace Urfu_Shedule_Parser.Sorting_Data
                         }
                     }
                 }
-                File.WriteAllText($"D:\\123\\999{_test_counter}.txt", test);
+                //File.WriteAllText($"D:\\123\\999{_test_counter}.txt", test);
             }
             return _one_day = new One_Day_Pattern(_date_string, _lesson); //_lessons_list_of_day; // _one_day_shedule; // == null ? null : _one_day_shedule;
         }

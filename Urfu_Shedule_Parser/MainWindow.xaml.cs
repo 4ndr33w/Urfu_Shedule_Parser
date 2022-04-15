@@ -58,23 +58,23 @@ namespace Urfu_Shedule_Parser
                     string test = "";
                     One_Group_Shedule = sort_shedule.Weekly_Shedule_Sort(run_test.get_data()[i]);
 
-                    for (int k = 0; k < One_Group_Shedule.DayPattern_List.Count; k++)
-                    {
-                        test += One_Group_Shedule.Group + "\n";
-                        test += One_Group_Shedule.DayPattern_List[k].DateString + "\n";
+                    //for (int k = 0; k < One_Group_Shedule.DayPattern_List.Count; k++)
+                    //{
+                    //    test += One_Group_Shedule.Group + "\n";
+                    //    test += One_Group_Shedule.DayPattern_List[k].DateString + "\n";
 
-                        for (int m = 0; m < One_Group_Shedule.DayPattern_List[k].Get_Lessons.Count; m++)
-                        {
-                            test += One_Group_Shedule.DayPattern_List[k].Get_Lessons[m].Duration + "  ||  ";
-                            test += One_Group_Shedule.DayPattern_List[k].Get_Lessons[m].Discipline + "\n";
-                            test += One_Group_Shedule.DayPattern_List[k].Get_Lessons[m].Chamber + "  ||  ";
-                            test += One_Group_Shedule.DayPattern_List[k].Get_Lessons[m].Teacher + "\n";
-                            test += One_Group_Shedule.DayPattern_List[k].Get_Lessons[m].Lesson_Type + "\n";
-                            test += "-------------------------------------------------------------------";
-                            test += "-------------------------------------------------------------------";
-                        }
-                    }
-                    File.WriteAllText(@"D:\123\555.txt", test);
+                    //    for (int m = 0; m < One_Group_Shedule.DayPattern_List[k].Get_Lessons.Count; m++)
+                    //    {
+                    //        test += One_Group_Shedule.DayPattern_List[k].Get_Lessons[m].Duration + "  ||  ";
+                    //        test += One_Group_Shedule.DayPattern_List[k].Get_Lessons[m].Discipline + "\n";
+                    //        test += One_Group_Shedule.DayPattern_List[k].Get_Lessons[m].Chamber + "  ||  ";
+                    //        test += One_Group_Shedule.DayPattern_List[k].Get_Lessons[m].Teacher + "\n";
+                    //        test += One_Group_Shedule.DayPattern_List[k].Get_Lessons[m].Lesson_Type + "\n";
+                    //        test += "-------------------------------------------------------------------";
+                    //        test += "-------------------------------------------------------------------";
+                    //    }
+                    //}
+                    //File.WriteAllText(@"D:\123\555.txt", test);
                     //sort_shedule
                     //extract_datas.Split_request_To_days(run_test.get_data()[i]);
                     //Thread.Sleep(500);
