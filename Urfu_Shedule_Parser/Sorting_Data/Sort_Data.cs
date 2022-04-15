@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Urfu_Shedule_Parser.Shedule_Pattern;
 using System.IO;
 
@@ -15,13 +13,12 @@ namespace Urfu_Shedule_Parser.Sorting_Data
         string _response;
         ObservableCollection<One_Day_Pattern> _one_day_shedule = new ObservableCollection<One_Day_Pattern>(); // = new List<Shedule_Scheme>();
         ObservableCollection<Lesson_Pattern> _lessons_list_of_day = new ObservableCollection<Lesson_Pattern>();
-        public ObservableCollection<Weekly_Shedule_Pattern> Groups_Shedule_Collection = new ObservableCollection<Weekly_Shedule_Pattern>();
+        //public ObservableCollection<Weekly_Shedule_Pattern> Groups_Shedule_Collection = new ObservableCollection<Weekly_Shedule_Pattern>();
         public Weekly_Shedule_Pattern Week_Shedule_List = new Weekly_Shedule_Pattern();
         Lesson_Pattern _lesson = new Lesson_Pattern();
         List<string> _raw_shedule_strings__splittet_by_days = new List<string>();
         One_Day_Pattern _one_day = new One_Day_Pattern();
         string test = "";
-        int _test_counter = 0;
 
         public Weekly_Shedule_Pattern Weekly_Shedule_Sort(string data)
         {
@@ -42,17 +39,19 @@ namespace Urfu_Shedule_Parser.Sorting_Data
 
                     _raw_shedule_strings__splittet_by_days.Add(_one_day_string);
 
-                    int StartIndex = _one_day_string.IndexOf("<b>"); // > -1 ? _day.IndexOf("<b>") : -1;
+                    int StartIndex = _one_day_string.IndexOf("<b>");
                     int EndIndex = _one_day_string.IndexOf("</b>");
                     string _date_string = _one_day_string.Substring(StartIndex + 3, EndIndex - StartIndex - 3);
                 }
             }
+            test += _group_name;
+            test += "\n";
             foreach (var item in _raw_shedule_strings__splittet_by_days)
             {
                 _one_day_shedule.Add(new One_Day_Pattern(Dayly_Shedule_Sort(item)));
             }
             File.WriteAllText(@"D:\123\999.txt", test);
-            return Week_Shedule_List = new Weekly_Shedule_Pattern(_group_name, _one_day_shedule); //Groups_Shedule_Collection;
+            return Week_Shedule_List = new Weekly_Shedule_Pattern(_group_name, _one_day_shedule);
         }
 
         private One_Day_Pattern Dayly_Shedule_Sort(string data)
@@ -80,8 +79,7 @@ namespace Urfu_Shedule_Parser.Sorting_Data
                     {
                         int _duration_EndIndex = _day.IndexOf("</td>", _duration_StartIndex);
                         _lesson.Duration = _day.Substring(_duration_StartIndex + 6, _duration_EndIndex - _duration_StartIndex - 6);
-                        test += _lesson.Duration;
-                        test += "\n-----Duration------\n";
+                        test += _lesson.Duration + "\n";
 
                         int _disciple_StartIndex = _day.IndexOf("<dd>", _duration_EndIndex);
                         int _disciple_EndIndex = _day.IndexOf("</dd>", _disciple_StartIndex);
@@ -102,31 +100,26 @@ namespace Urfu_Shedule_Parser.Sorting_Data
                             // после "_discipline.Split(' ').Where(x => !String.IsNullOrWhiteSpace(x)).ToArray(); "
                             // остаются пара пустых строк
 
-                            _lesson.Discipline = _discipline; // _temporary_discipline_string;
-                            test += _lesson.Discipline;
-                            test += "\n-----Discipline-----\n";
+                            _lesson.Discipline = _discipline;
+                            test += _lesson.Discipline += " ";
                             _day = _day.Substring(_day.IndexOf("</dd>"));
 
                             int _lesson_type_StartIndex = _day.IndexOf("<span class=\"teacher\">");
                             if (_lesson_type_StartIndex < 0) { _lesson_type_StartIndex = 0; }
                             int _lesson_type_EndIndex = _day.IndexOf("</span>");
                             _lesson.Lesson_Type = _day.Substring(_lesson_type_StartIndex + 22, _lesson_type_EndIndex - _lesson_type_StartIndex - 22);
-                            test += _lesson.Lesson_Type;
-                            test += "\n------Lesson_Type------\n";
+                            test += _lesson.Lesson_Type += " ";
                             _day = _day.Substring(_day.IndexOf("</span>") + 7);
 
                             int _cabinet_StartIndex = _day.IndexOf("cabinet\">");
                             if (_cabinet_StartIndex < 0 || _day.IndexOf("</span>") - _cabinet_StartIndex < 0)
                             {
                                 _lesson.Chamber = "Online";
-                                //_cabinet_StartIndex = _day.IndexOf("</span>") - 100;
-                                /*return _one_day = new One_Day_Pattern(_date_string, _lesson);*/ // _day.IndexOf("</span>");
                             }
                             else
                             {
                                 int _cabinet_EndIndex = _day.IndexOf("</span>");
-                                //if (_cabinet_EndIndex - _cabinet_StartIndex > 0)
-                                //{
+
                                 string _cabinet = _day.Substring(_cabinet_StartIndex + 22, _cabinet_EndIndex - _cabinet_StartIndex - 22);
                                 string[] _cabinet_splitted = _cabinet.Split(' ').Where(c => !String.IsNullOrWhiteSpace(c)).ToArray();
                                 _cabinet = "";
@@ -138,18 +131,15 @@ namespace Urfu_Shedule_Parser.Sorting_Data
                                 char[] Array_of_cabinet_symbols = new char[_cabinet.Length];
                                 string _temporary_cabinet_string = "";
 
-                                _lesson.Chamber = _cabinet; // _temporary_cabinet_string;
+                                _lesson.Chamber = _cabinet;
                                 _day = _day.Substring(_day.IndexOf("</span>", _cabinet_StartIndex));
                             }
-                                test += _lesson.Chamber;
-                                test += "\n------Chamber------\n";
+                                test += _lesson.Chamber += " ";
 
                             int _teacher_StartIndex = _day.IndexOf("<span class=\"teacher\">");
                                 if (_teacher_StartIndex < 0) 
                             {
                                 _lesson.Teacher = "";
-                                //_teacher_StartIndex = _day.IndexOf("</span>", _teacher_StartIndex) - 50;
-                                /*return _one_day = new One_Day_Pattern(_date_string, _lesson);*/ 
                             }
                                 else
                             {
@@ -158,20 +148,16 @@ namespace Urfu_Shedule_Parser.Sorting_Data
                                 StartIndex = _day.IndexOf("</span>");
                                 _day = _day.Substring(_day.IndexOf("</span>", _teacher_StartIndex));
                             }
-                                test += _lesson.Teacher;
-                                test += "\n-------Teacher-------\n";
-                               
-                                _lessons_list_of_day.Add(new Lesson_Pattern(_lesson));
+                                test += _lesson.Teacher += " ";
+
+                            _lessons_list_of_day.Add(new Lesson_Pattern(_lesson));
                                 test += "\n------------------\n";
-                                test += "\n------------------\n";
-                            //}
-                           
+                            test += "\n";
                         }
                     }
                 }
-                //File.WriteAllText($"D:\\123\\999{_test_counter}.txt", test);
             }
-            return _one_day = new One_Day_Pattern(_date_string, _lesson); //_lessons_list_of_day; // _one_day_shedule; // == null ? null : _one_day_shedule;
+            return _one_day = new One_Day_Pattern(_date_string, _lesson);
         }
     }
 }
