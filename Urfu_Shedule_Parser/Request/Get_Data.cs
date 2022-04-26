@@ -13,8 +13,8 @@ namespace Urfu_Shedule_Parser.Request
 {
     public class Get_Data
     {
-        string _group_url = "985795";
-        string _group_week_date = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString();
+        string _group_url = "46564"; /*"985795";*/
+        string _group_week_date = /*"20220410";*/ DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString();
 
         private static System.Timers.Timer event_timer;
 
@@ -69,9 +69,9 @@ namespace Urfu_Shedule_Parser.Request
 
 
 
-                for (int i = 985831; i < 985832; i++)
+                for (int i = 46577 /*985754*/ /*985831*/; i < 46578 /*985755*/ /*985832*/; i++)
                 {
-                    Thread.Sleep(1000);
+                    Thread.Sleep(500);
                     _group_url = i.ToString();
 
                     // ------------------------------------------------------------------------------------

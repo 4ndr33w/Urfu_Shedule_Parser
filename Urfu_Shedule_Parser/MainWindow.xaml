@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Urfu_Shedule_Parser"
         mc:Ignorable="d"
+        Loaded="Window_Loaded"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -12,27 +13,37 @@
             <ColumnDefinition Width="73*"/>
         </Grid.ColumnDefinitions>
         <ListBox x:Name="List_Box" Grid.Column="0" Margin="10,10,10,10">
-            <ListBoxItem>
+            <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
+                    <DockPanel>
                         <StackPanel Orientation="Vertical">
-                            <TextBlock x:Name="DateString" Text="{Binding DateString}"/>
-                            <TextBlock x:Name="Duration" Text="{Binding Duration}"/>
-                            <TextBlock x:Name="Chamber"/>
+                            <TextBlock  x:Name="DateString"  Text="{Binding DateString}"/>
+                            
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock x:Name="Duration" Text="{Binding Duration}" Foreground="Black" FontSize="10" Background="LightGray"/>
+                                <TextBlock x:Name="Chamber" Text="{Binding Chamber}" Foreground="Black" FontSize="10"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock x:Name="Discipline" Text="{Binding Discipline}"/>
+                                <TextBlock x:Name="Teacher_name"/>
+                            </StackPanel>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock x:Name="Discipline" Text="{Binding Discipline}"/>
-                            <TextBlock x:Name="Teacher_name"/>
-                        </StackPanel>
-                    </StackPanel>
+                    </DockPanel>
+                   
                 </DataTemplate>
-            </ListBoxItem>
+            </ListBox.ItemTemplate>
         </ListBox>
         <StackPanel Orientation="Vertical" Grid.Column="1" Margin="5,5,5,5">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="10">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
                     <Label Content="Институт:" Margin=" 10" HorizontalAlignment="Center"/>
-                    <ComboBox x:Name="Institute_ComboBox" Margin="15,0,15,0" Width="100"/>
+                    <ComboBox x:Name="Institute_ComboBox" Margin="15,0,15,0" Width="100">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding GroupName}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
                     <Label Content="Группа:" Margin=" 10, 10, 10, 10" HorizontalAlignment="Center"/>
