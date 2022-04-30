@@ -67,7 +67,7 @@ namespace Urfu_Shedule_Parser.Sorting_Data
             int id = 0;
             //connection.Open();
             //string _chamber = "";
-            //Thread.Sleep(1000);
+            Thread.Sleep(2000);
             Task.WaitAll();
             sql_command = new SqlCommand("DELETE FROM Shedule", connection);
             sql_command.ExecuteNonQuery();

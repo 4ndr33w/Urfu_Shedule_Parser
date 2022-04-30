@@ -49,7 +49,7 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="10">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
                     <Label Content="Институт:" Margin=" 10" HorizontalAlignment="Center"/>
-                    <TextBox x:Name="Institute_TextBox" Margin="15,0,15,0" Width="100"/>
+                    <TextBox x:Name="Institute_TextBox" Text="46564" Margin="15,0,15,0" Width="100"/>
 
                 </StackPanel>
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">

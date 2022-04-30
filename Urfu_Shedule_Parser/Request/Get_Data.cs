@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
+//using System.Windows.Threading;
 
 namespace Urfu_Shedule_Parser.Request
 {
     public class Get_Data
     {
-        MainWindow Form1 = new MainWindow();
-        string _group_url = "46564"; /*"985795";*/
+        //MainWindow Form1 = new MainWindow();
+        public string _group_url = Static_Group_Prefix.Prefix; // = Institute_TextBox.Text;; // = "46564"; /*"985795";*/
+        public int _group_number = 0;
         string _group_week_date = /*"20220410";*/ DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString();
 
         private static System.Timers.Timer event_timer;
@@ -59,7 +62,11 @@ namespace Urfu_Shedule_Parser.Request
                 postRequest.Run(Post_cookieContainer);
 
                 Thread.Sleep(100);
-                int _group_number = /*Convert.ToInt32(Form1.Institute_TextBox.Text); //*/ 47691;
+                _group_number = Convert.ToInt32(_group_url); // 47691;
+                //var _dispatch = Dispatcher.Invoke (() => _group_number = Convert.ToInt32(Form1.Institute_TextBox.Text) );
+
+                //await Task.Run(() => _group_number = Convert.ToInt32(Form1.Institute_TextBox.Text));
+
 
 
 
@@ -70,7 +77,7 @@ namespace Urfu_Shedule_Parser.Request
 
                     // ------------------------------------------------------------------------------------
 
-                    var getRequest = new GetRequest(Properties.Resources.Shedule_url + @"/" + _group_url + @"/" + _group_week_date);
+                    var getRequest = new GetRequest(Properties.Resources.Shedule_url + @"/" + /*_group_url*/Static_Group_Prefix.Prefix + @"/" + _group_week_date);
                     if (getRequest == null) MessageBox.Show("Request_null");
 
                     if (getRequest != null)

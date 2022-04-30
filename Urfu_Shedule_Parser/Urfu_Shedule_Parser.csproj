@@ -76,6 +76,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Display_Data_From_DB\DB_Display.cs" />
+    <Compile Include="Request\Static_Group_Prefix.cs" />
     <Compile Include="Saving_Data\Data_Base_Class.cs" />
     <Compile Include="Shedule_Pattern\Lesson_Pattern.cs" />
     <Compile Include="Shedule_Pattern\Weekly_Shedule_Pattern.cs" />

@@ -35,32 +35,41 @@ namespace Urfu_Shedule_Parser
         ObservableCollection<One_Day_Pattern> Weekly_List = new ObservableCollection<One_Day_Pattern>();
         ObservableCollection<Lesson_Pattern> Lessons = new ObservableCollection<Lesson_Pattern>();
         List<string> get_response = new List<string>();
+        Request.Get_Data run_test = new Request.Get_Data();
+
+        Display_Data_From_DB.DB_Display _display = new Display_Data_From_DB.DB_Display();
 
         string connection_String = Properties.Resources.ConnectionString; //ConfigurationManager.ConnectionStrings[0].ConnectionString.ToString();
         public MainWindow()
         {
             
             InitializeComponent();
+            Request.Static_Group_Prefix.Prefix = Institute_TextBox.Text;
+            //run_test._group_url = Institute_TextBox.Text;
+            //run_test._group_number = Convert.ToInt32(Institute_TextBox.Text);
         }
       
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            Request.Static_Group_Prefix.Prefix = Institute_TextBox.Text;
             Saving_Data.Data_Base_Class DataBase_Connection = new Saving_Data.Data_Base_Class();
             DataBase_Connection.Sql_Connection_Method();
     }
 
         private void Start_Parse_Button_Click(object sender, RoutedEventArgs e)
         {
+            Request.Static_Group_Prefix.Prefix = Institute_TextBox.Text;
             DateTime StartTime = DateTime.Now;
             //int counter = 0;
             Group_Number_TextBox.Text = DateTime.Now.ToString();
-            Request.Get_Data run_test = new Request.Get_Data();
+            //Request.Get_Data run_test = new Request.Get_Data();
 
             Sorting_Data.Sort_Data sort_data = new Sorting_Data.Sort_Data();
 
             Task.Run(() =>
             {
                 //string test = "";
+                //var temp_data = new Task<List<string>>(run_test.get_dataAsync() as Task<List<string>>);
                 get_response = run_test.get_data();
                 for (int i = 0; i < get_response.Count; i++)
                 {
@@ -137,15 +146,15 @@ namespace Urfu_Shedule_Parser
                 DateTime EndTime = DateTime.Now;
                 TimeSpan span = EndTime - StartTime;
                 //Saving_Data.Data_Base_Class DataBase_Connection = new Saving_Data.Data_Base_Class();
-                MessageBox.Show(span.TotalSeconds.ToString());
+                MessageBox.Show(span.TotalSeconds.ToString() + "\n" + run_test._group_url + "\n" + run_test._group_number + "\n" + Request.Static_Group_Prefix.Prefix);
                 //File.WriteAllText($"d:\\123\\TimeSpan.txt", span.TotalSeconds.ToString());
             });
         }
 
         private void show_result_Button_Click(object sender, RoutedEventArgs e)
         {
-            Display_Data_From_DB.DB_Display _display = new Display_Data_From_DB.DB_Display();
-            List_Box.ItemsSource =  _display.Collection_Fill();
+            
+            //List_Box.ItemsSource =  _display.Collection_Fill();
             Grid_Data.ItemsSource = _display.DB_Table().DefaultView;
         }
 
@@ -158,7 +167,9 @@ namespace Urfu_Shedule_Parser
             command.ExecuteNonQuery();
             MessageBox.Show(command.ExecuteNonQuery().ToString());
             connection.Close();
-            
+            _display.DB_Table().Clear();
+           // Grid_Data.Items.Clear();
+
             //DataBase_Connection.sql_connection_return().
         }
     }
