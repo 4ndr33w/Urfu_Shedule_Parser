@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Urfu_Shedule_Parser.Shedule_Pattern;
-using System.IO;
 using System.Data.SqlClient;
 using System.Windows;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Urfu_Shedule_Parser.Sorting_Data
 {
@@ -67,7 +67,8 @@ namespace Urfu_Shedule_Parser.Sorting_Data
             int id = 0;
             //connection.Open();
             //string _chamber = "";
-            Thread.Sleep(500);
+            //Thread.Sleep(1000);
+            Task.WaitAll();
             sql_command = new SqlCommand("DELETE FROM Shedule", connection);
             sql_command.ExecuteNonQuery();
             //connection.Close();

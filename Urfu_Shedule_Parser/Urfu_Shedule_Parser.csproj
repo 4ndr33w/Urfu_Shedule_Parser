@@ -75,6 +75,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Display_Data_From_DB\DB_Display.cs" />
     <Compile Include="Saving_Data\Data_Base_Class.cs" />
     <Compile Include="Shedule_Pattern\Lesson_Pattern.cs" />
     <Compile Include="Shedule_Pattern\Weekly_Shedule_Pattern.cs" />
@@ -144,5 +145,6 @@
       <DependentUpon>Database_11.mdf</DependentUpon>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

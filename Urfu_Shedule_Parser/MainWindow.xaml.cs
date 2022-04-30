@@ -144,7 +144,9 @@ namespace Urfu_Shedule_Parser
 
         private void show_result_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            Display_Data_From_DB.DB_Display _display = new Display_Data_From_DB.DB_Display();
+            List_Box.ItemsSource =  _display.Collection_Fill();
+            Grid_Data.ItemsSource = _display.DB_Table().DefaultView;
         }
 
         private void clear_table_Button_Click(object sender, RoutedEventArgs e)

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using Urfu_Shedule_Parser.Shedule_Pattern;
 
@@ -55,9 +51,5 @@ namespace Urfu_Shedule_Parser
             _lessons.Add(lesson);
             _date_string = date_string;
         }
-        //public override string ToString()
-        //{
-        //    return this.DateString + ' ' + this.Duration + ' ' + this.Discipline + "\n";
-        //}
     }
 }

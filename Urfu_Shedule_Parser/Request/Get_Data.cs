@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Net;
 using System.Threading;
 using System.Windows;
-using System.IO;
-using System.Timers;
 
 namespace Urfu_Shedule_Parser.Request
 {
     public class Get_Data
     {
+        MainWindow Form1 = new MainWindow();
         string _group_url = "46564"; /*"985795";*/
         string _group_week_date = /*"20220410";*/ DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString();
 
@@ -52,8 +48,6 @@ namespace Urfu_Shedule_Parser.Request
                 postRequest.Referer = $"https://urfu.ru/ru/students/study/schedule/";/*/ru/students/study/schedule/*/
                 postRequest.Host = "urfu.ru";
 
-                //postRequest.Proxy = proxy;
-
                 postRequest.Headers.Add("Origin", "https://urfu.ru");
                 postRequest.Headers.Add("sec-ch-ua", "\" Not A; Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"");
                 postRequest.Headers.Add("sec-ch-ua-mobile", "?0");
@@ -65,7 +59,7 @@ namespace Urfu_Shedule_Parser.Request
                 postRequest.Run(Post_cookieContainer);
 
                 Thread.Sleep(100);
-                int _group_number = 47691;
+                int _group_number = /*Convert.ToInt32(Form1.Institute_TextBox.Text); //*/ 47691;
 
 
 
@@ -102,8 +96,6 @@ namespace Urfu_Shedule_Parser.Request
                         returned_request_string.Add(getRequest.Response);
                     }
                     //File.WriteAllText(@"D:\122.txt", returned_request_string);
-
-
                     else /*return */returned_request_string.Add(string.Empty);
                 }
             }
