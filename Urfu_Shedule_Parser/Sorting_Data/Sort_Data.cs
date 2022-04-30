@@ -6,6 +6,7 @@ using Urfu_Shedule_Parser.Shedule_Pattern;
 using System.IO;
 using System.Data.SqlClient;
 using System.Windows;
+using System.Threading;
 
 namespace Urfu_Shedule_Parser.Sorting_Data
 {
@@ -32,7 +33,7 @@ namespace Urfu_Shedule_Parser.Sorting_Data
             SqlConnection connection = DB_Fills.sql_connection_return();
             _response = data;
             string[] group_splitted = /*new string[] { " ", " " };*/_response.Substring(_response.IndexOf("Группа "), 25).Split(' ');
-            _group_name = group_splitted[0] + ' ' + group_splitted[1];
+            _group_name = /*group_splitted[0] + ' ' + */group_splitted[1];
 
             SqlCommand sql_command = null;
 
@@ -64,22 +65,27 @@ namespace Urfu_Shedule_Parser.Sorting_Data
 
             }
             int id = 0;
+            //connection.Open();
             //string _chamber = "";
-            
-            foreach (var day in _one_day_shedule)
-            {
-                foreach (var item in day.Get_Lessons)
+            Thread.Sleep(500);
+            sql_command = new SqlCommand("DELETE FROM Shedule", connection);
+            sql_command.ExecuteNonQuery();
+            //connection.Close();
+            //foreach (var day in _one_day_shedule)
+            //{
+            //connection.Open();
+            foreach (var item in _one_day_shedule[0].Get_Lessons)
                 {
                     //do
                     //{
                         id++;
 
                         sql_command = new SqlCommand(
-                            $"INSERT INTO [Shedule] (Id, Date, Duration, LessonNumber, LessonName, Chamber, LessonType, Teacher, GroupName) VALUES ('{id}', N'{item.DateString}', N'{item.Duration}', N'{item.Discipline[0]}', N'{item.Discipline}', N'{item.Chamber}', N'{item.Lesson_Type}', N'{item.Teacher}', N'{_group_name}')", connection);
+                            $"INSERT INTO [Shedule] (Id, Date, Duration, LessonNumber, LessonName, Chamber, LessonType, Teacher, GroupName) VALUES ('{id}', N'{item.DateString}', N'{item.Duration}', N'{item.Discipline[0]}', N'{item.Discipline.Substring(4)}', N'{item.Chamber}', N'{item.Lesson_Type}', N'{item.Teacher}', N'{_group_name}')", connection);
                         sql_command.ExecuteNonQuery();
                     //}
                     //while (item.GetHashCode() != day.Get_Lessons[0].GetHashCode());
-                }
+                //}
 
                 //MessageBox.Show(sql_command.ExecuteNonQuery().ToString() + _group_name);
 

@@ -65,11 +65,11 @@ namespace Urfu_Shedule_Parser.Request
                 postRequest.Run(Post_cookieContainer);
 
                 Thread.Sleep(100);
-                int _group_number = 984000;
+                int _group_number = 47697;
 
 
 
-                for (int i = 46578 /*46577*/ /*985754*/ /*985831*/; i < 46579 /*985755*/ /*985832*/; i++)
+                for (int i = _group_number /*46577*/ /*985754*/ /*985831*/; i < _group_number + 1 /*985755*/ /*985832*/; i++)
                 {
                     Thread.Sleep(500);
                     _group_url = i.ToString();

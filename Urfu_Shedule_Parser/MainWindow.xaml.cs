@@ -153,7 +153,10 @@ namespace Urfu_Shedule_Parser
             var connection = DataBase_Connection.sql_connection_return();
             connection.Open();
             SqlCommand command = new SqlCommand("DELETE FROM DataTable", connection);
+            command.ExecuteNonQuery();
+            MessageBox.Show(command.ExecuteNonQuery().ToString());
             connection.Close();
+            
             //DataBase_Connection.sql_connection_return().
         }
     }
