@@ -65,7 +65,7 @@ namespace Urfu_Shedule_Parser.Request
                 postRequest.Run(Post_cookieContainer);
 
                 Thread.Sleep(100);
-                int _group_number = 47697;
+                int _group_number = 47691;
 
 
 
