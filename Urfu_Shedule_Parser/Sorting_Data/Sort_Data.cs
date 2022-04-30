@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Urfu_Shedule_Parser.Shedule_Pattern;
 using System.IO;
+using System.Data.SqlClient;
+using System.Windows;
 
 namespace Urfu_Shedule_Parser.Sorting_Data
 {
@@ -21,13 +23,18 @@ namespace Urfu_Shedule_Parser.Sorting_Data
         string test = "";
         int counter = 0;
 
+        Saving_Data.Data_Base_Class DB_Fills = new Saving_Data.Data_Base_Class();
+
         public Weekly_Shedule_Pattern Weekly_Shedule_Sort(string data)
         {
+            DB_Fills.Sql_Connection_Method();
+            
+            SqlConnection connection = DB_Fills.sql_connection_return();
             _response = data;
             string[] group_splitted = /*new string[] { " ", " " };*/_response.Substring(_response.IndexOf("Группа "), 25).Split(' ');
             _group_name = group_splitted[0] + ' ' + group_splitted[1];
 
-
+            SqlCommand sql_command = null;
 
             //if (data.IndexOf("<td colspan=\"3\"> </td>", data.IndexOf("<b>")) > 0 && data.IndexOf("<b>") > -1)
             //{
@@ -56,10 +63,20 @@ namespace Urfu_Shedule_Parser.Sorting_Data
                 _one_day_shedule.Add(new One_Day_Pattern(Dayly_Shedule_Sort(item)));
 
             }
+            int id = 0;
+            string _chamber = "";
+            
             foreach (var day in _one_day_shedule)
             {
                 foreach (var item in day.Get_Lessons)
                 {
+                    id++;
+
+                        sql_command = new SqlCommand("INSERT INTO [Table] (Id, Date, Duration, LessonNumber, LessonName, Chamber, LessonType, Teacher)" +
+                        $"VALUES ('{id}', N'{item.DateString}', N'{item.Duration}', N'{item.Discipline[0]}', N'{item.Discipline}', N'{item.Chamber}', N'{item.Lesson_Type}', N'{item.Teacher}')", DB_Fills.sql_connection_return());
+
+                        //MessageBox.Show(sql_command.ExecuteNonQuery().ToString());
+
                     test += "\n--------------------------------------------\n";
                     test += item.DateString + "\n";
                     test += item.Duration + "\n";
@@ -67,9 +84,10 @@ namespace Urfu_Shedule_Parser.Sorting_Data
                     test += item.Chamber + "\n";
                     test += item.Lesson_Type + "\n";
                     test += item.Teacher + "\n";
-                    test += "\n--------------------------------------------\n";
-                }
+                    test += "\n--------------------------------------------\n"; 
+                } 
             }
+            //MessageBox.Show(sql_command.ExecuteNonQuery().ToString());
             test += "\n--------------------------------------------\n";
                 counter++;
                  File.WriteAllText($"D:\\123\\Weekly_Shedule_Sort_Method.txt", test);
@@ -77,7 +95,8 @@ namespace Urfu_Shedule_Parser.Sorting_Data
                 Week_Shedule_List = new Weekly_Shedule_Pattern(_group_name, _one_day_shedule);
 
             //}
-
+            connection.Close();
+            MessageBox.Show(connection.State.ToString());
 
             return Week_Shedule_List;
 

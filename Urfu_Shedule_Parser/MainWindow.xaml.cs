@@ -19,6 +19,7 @@ using Urfu_Shedule_Parser.Shedule_Pattern;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using MySql.Data;
 
 namespace Urfu_Shedule_Parser
 {
@@ -35,43 +36,18 @@ namespace Urfu_Shedule_Parser
         ObservableCollection<Lesson_Pattern> Lessons = new ObservableCollection<Lesson_Pattern>();
         List<string> get_response = new List<string>();
 
-        string connection_String = ConfigurationManager.ConnectionStrings[0].ConnectionString;
+        string connection_String = Properties.Resources.ConnectionString; //ConfigurationManager.ConnectionStrings[0].ConnectionString.ToString();
         public MainWindow()
         {
             
-            InitializeComponent(); 
+            InitializeComponent();
         }
+      
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Show(connection_String);
-            sql_Connection = new SqlConnection(ConfigurationManager.ConnectionStrings[0].ConnectionString);
-
-            Task.Run(() =>
-            {
-                try
-                {
-                    sql_Connection.Close();
-                    sql_Connection.Open();
-                    MessageBox.Show(sql_Connection.Database.ToString());
-                }
-                catch (Exception)
-                {
-                    return;
-                }
-                finally
-                {
-                    MessageBox.Show(sql_Connection.State.ToString());
-                    if (sql_Connection.State == ConnectionState.Open) { MessageBox.Show("Подключение не удалось"); }
-                    else MessageBox.Show("Подключение не удалось");
-                }
-                
-                
-            });
-
-            
-
-            //MessageBox.Show(connection_String);
-        }
+            Saving_Data.Data_Base_Class DataBase_Connection = new Saving_Data.Data_Base_Class();
+            DataBase_Connection.Sql_Connection_Method();
+    }
 
         private void Start_Parse_Button_Click(object sender, RoutedEventArgs e)
         {

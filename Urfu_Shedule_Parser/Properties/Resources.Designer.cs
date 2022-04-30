@@ -61,6 +61,15 @@ namespace Urfu_Shedule_Parser.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\My_Projects\C#_Projects\2022\Urfu_Shedule_Parser\Urfu_Shedule_Parser\Saving_Data\Database_11.mdf;Integrated Security=True.
+        /// </summary>
+        internal static string ConnectionString {
+            get {
+                return ResourceManager.GetString("ConnectionString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на https://urfu.ru/api/schedule/groups/lessons.
         /// </summary>
         internal static string Shedule_url {
