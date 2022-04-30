@@ -53,6 +53,8 @@
             </StackPanel>
 
             <Button Click="Start_Parse_Button_Click" x:Name="Start_Parse_Button" Content="start" Width="80" Height="25" Margin="10,50,10,0"/>
+            <Button x:Name="show_result_Button" Click="show_result_Button_Click" Margin="10, 50, 10, 0" Width="80" Height="25" Content="Show"/>
+            <Button x:Name="clear_table_Button" Click="clear_table_Button_Click" Margin="10, 50, 10, 0" Width="80" Height="25" Content="Clear"/>
         </StackPanel>
 
     </Grid>

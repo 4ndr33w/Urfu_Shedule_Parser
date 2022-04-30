@@ -69,7 +69,7 @@ namespace Urfu_Shedule_Parser.Request
 
 
 
-                for (int i = 46577 /*985754*/ /*985831*/; i < 46578 /*985755*/ /*985832*/; i++)
+                for (int i = 46578 /*46577*/ /*985754*/ /*985831*/; i < 46579 /*985755*/ /*985832*/; i++)
                 {
                     Thread.Sleep(500);
                     _group_url = i.ToString();

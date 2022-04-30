@@ -55,8 +55,8 @@ namespace Urfu_Shedule_Parser.Sorting_Data
                     string _date_string = _one_day_string.Substring(StartIndex + 3, EndIndex - StartIndex - 3);
                 }
             }
-            test += _group_name;
-            test += "\n";
+            //test += _group_name;
+            //test += "\n";
             foreach (var item in _raw_shedule_strings__splittet_by_days)
             {
 
@@ -64,34 +64,40 @@ namespace Urfu_Shedule_Parser.Sorting_Data
 
             }
             int id = 0;
-            string _chamber = "";
+            //string _chamber = "";
             
             foreach (var day in _one_day_shedule)
             {
                 foreach (var item in day.Get_Lessons)
                 {
-                    id++;
+                    //do
+                    //{
+                        id++;
 
-                        sql_command = new SqlCommand("INSERT INTO [Table] (Id, Date, Duration, LessonNumber, LessonName, Chamber, LessonType, Teacher)" +
-                        $"VALUES ('{id}', N'{item.DateString}', N'{item.Duration}', N'{item.Discipline[0]}', N'{item.Discipline}', N'{item.Chamber}', N'{item.Lesson_Type}', N'{item.Teacher}')", DB_Fills.sql_connection_return());
+                        sql_command = new SqlCommand(
+                            $"INSERT INTO [Shedule] (Id, Date, Duration, LessonNumber, LessonName, Chamber, LessonType, Teacher, GroupName) VALUES ('{id}', N'{item.DateString}', N'{item.Duration}', N'{item.Discipline[0]}', N'{item.Discipline}', N'{item.Chamber}', N'{item.Lesson_Type}', N'{item.Teacher}', N'{_group_name}')", connection);
+                        sql_command.ExecuteNonQuery();
+                    //}
+                    //while (item.GetHashCode() != day.Get_Lessons[0].GetHashCode());
+                }
 
-                        //MessageBox.Show(sql_command.ExecuteNonQuery().ToString());
+                //MessageBox.Show(sql_command.ExecuteNonQuery().ToString() + _group_name);
 
-                    test += "\n--------------------------------------------\n";
-                    test += item.DateString + "\n";
-                    test += item.Duration + "\n";
-                    test += item.Discipline + "\n";
-                    test += item.Chamber + "\n";
-                    test += item.Lesson_Type + "\n";
-                    test += item.Teacher + "\n";
-                    test += "\n--------------------------------------------\n"; 
-                } 
+
+                //test += "\n--------------------------------------------\n";
+                //test += item.DateString + "\n";
+                //test += item.Duration + "\n";
+                //test += item.Discipline + "\n";
+                //test += item.Chamber + "\n";
+                //test += item.Lesson_Type + "\n";
+                //test += item.Teacher + "\n";
+                //test += "\n--------------------------------------------\n"; 
             }
             //MessageBox.Show(sql_command.ExecuteNonQuery().ToString());
-            test += "\n--------------------------------------------\n";
-                counter++;
-                 File.WriteAllText($"D:\\123\\Weekly_Shedule_Sort_Method.txt", test);
-                test = "";
+            //test += "\n--------------------------------------------\n";
+                //counter++;
+                 //File.WriteAllText($"D:\\123\\Weekly_Shedule_Sort_Method.txt", test);
+                //test = "";
                 Week_Shedule_List = new Weekly_Shedule_Pattern(_group_name, _one_day_shedule);
 
             //}
@@ -104,7 +110,7 @@ namespace Urfu_Shedule_Parser.Sorting_Data
 
         private One_Day_Pattern Dayly_Shedule_Sort(string data)
         {
-            string test1_ = "";
+            //string test1_ = "";
             string _day = data;
             int StartIndex = _day.IndexOf("<b>");
             int EndIndex = _day.IndexOf("</b>");
@@ -113,7 +119,7 @@ namespace Urfu_Shedule_Parser.Sorting_Data
             if (EndIndex - StartIndex > 0)
             {
                 _lesson.DateString = _day.Substring(StartIndex + 3, EndIndex - StartIndex - 3);
-                test1_ += _lesson.DateString + "\n";
+                //test1_ += _lesson.DateString + "\n";
                 string _date_string_ = _lesson.DateString;
                 StartIndex = _day.IndexOf("</b></td>");
 
@@ -128,7 +134,7 @@ namespace Urfu_Shedule_Parser.Sorting_Data
                     {
                         int _duration_EndIndex = _day.IndexOf("</td>", _duration_StartIndex);
                         _lesson.Duration = _day.Substring(_duration_StartIndex + 6, _duration_EndIndex - _duration_StartIndex - 6);
-                        test1_ += _lesson.Duration + "\n";
+                        //test1_ += _lesson.Duration + "\n";
 
                         int _disciple_StartIndex = _day.IndexOf("<dd>", _duration_EndIndex);
                         int _disciple_EndIndex = _day.IndexOf("</dd>", _disciple_StartIndex);
@@ -150,14 +156,14 @@ namespace Urfu_Shedule_Parser.Sorting_Data
                             // остаются пара пустых строк
 
                             _lesson.Discipline = _discipline;
-                            test1_ += _lesson.Discipline += " ";
+                            //test1_ += _lesson.Discipline += " ";
                             _day = _day.Substring(_day.IndexOf("</dd>"));
 
                             int _lesson_type_StartIndex = _day.IndexOf("<span class=\"teacher\">");
                             if (_lesson_type_StartIndex < 0) { _lesson_type_StartIndex = 0; }
                             int _lesson_type_EndIndex = _day.IndexOf("</span>");
                             _lesson.Lesson_Type = _day.Substring(_lesson_type_StartIndex + 22, _lesson_type_EndIndex - _lesson_type_StartIndex - 22);
-                            test1_ += _lesson.Lesson_Type += " ";
+                            //test1_ += _lesson.Lesson_Type += " ";
                             _day = _day.Substring(_day.IndexOf("</span>") + 7);
 
                             int _cabinet_StartIndex = _day.IndexOf("cabinet\">");
@@ -183,7 +189,7 @@ namespace Urfu_Shedule_Parser.Sorting_Data
                                 _lesson.Chamber = _cabinet;
                                 _day = _day.Substring(_day.IndexOf("</span>", _cabinet_StartIndex));
                             }
-                            test1_ += _lesson.Chamber += " ";
+                            //test1_ += _lesson.Chamber += " ";
 
                             int _teacher_StartIndex = _day.IndexOf("<span class=\"teacher\">");
                                 if (_teacher_StartIndex < 0) 
@@ -197,16 +203,16 @@ namespace Urfu_Shedule_Parser.Sorting_Data
                                 StartIndex = _day.IndexOf("</span>");
                                 _day = _day.Substring(_day.IndexOf("</span>", _teacher_StartIndex));
                             }
-                            test1_ += _lesson.Teacher += " ";
+                            //test1_ += _lesson.Teacher += " ";
 
                             _lessons_list_of_day.Add(new Lesson_Pattern(_lesson));
-                            test1_ += "\n------------------\n";
-                            test1_ += "\n";
+                           // test1_ += "\n------------------\n";
+                           // test1_ += "\n";
                         }
                     }
                 }
             }
-            File.WriteAllText($"D:\\123\\Dayly_Shedule_Sort_Method.txt", test);
+            //File.WriteAllText($"D:\\123\\Dayly_Shedule_Sort_Method.txt", test);
             return _one_day = new One_Day_Pattern(_date_string, _lessons_list_of_day);
         }
     }
