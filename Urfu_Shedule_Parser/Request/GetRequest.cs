@@ -29,7 +29,7 @@ namespace Urfu_Shedule_Parser.Request
         {
             _request = (HttpWebRequest)WebRequest.Create(_url);
             _request.Method = "GET";
-            //_request.CookieContainer = new CookieContainer();
+
             try
             {
                 HttpWebResponse response = (HttpWebResponse)_request.GetResponse();
@@ -39,7 +39,7 @@ namespace Urfu_Shedule_Parser.Request
             catch (Exception)
             {
 
-                throw;
+                return;
             }
         }
 
@@ -68,7 +68,6 @@ namespace Urfu_Shedule_Parser.Request
             catch (Exception)
             {
                 Response = "Возникла ошибка";
-                //throw;
             }
         }
     }

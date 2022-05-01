@@ -10,7 +10,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="288"/>
+            <ColumnDefinition Width="371"/>
         </Grid.ColumnDefinitions>
         <TabControl>
             <TabItem Header="DataGrid">
@@ -47,18 +47,15 @@
 
         <StackPanel Orientation="Vertical" Grid.Column="1" Margin="5,5,5,5">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="10">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Margin="150, 0, 0, 0">
                     <Label Content="Институт:" Margin=" 10" HorizontalAlignment="Center"/>
-                    <TextBox x:Name="Institute_TextBox" Text="46564" Margin="15,0,15,0" Width="100"/>
+                    <TextBox x:Name="Institute_TextBox" Text="47631" Margin="15,0,15,0" Width="100"/>
 
-                </StackPanel>
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
-                    <Label Content="Группа:" Margin=" 10, 10, 10, 10" HorizontalAlignment="Center"/>
-                    <TextBox x:Name="Group_Number_TextBox" Margin="15,0,15,0" HorizontalAlignment="Stretch" Width="100"/>
                 </StackPanel>
 
             </StackPanel>
-
+            <Label/>
+            <Image Height="38" Source="/2022-05-01_21-19-46.png" Stretch="Fill" Width="352"/>
             <Button Click="Start_Parse_Button_Click" x:Name="Start_Parse_Button" Content="start" Width="80" Height="25" Margin="10,50,10,0"/>
             <Button x:Name="show_result_Button" Click="show_result_Button_Click" Margin="10, 50, 10, 0" Width="80" Height="25" Content="Show"/>
             <Button x:Name="clear_table_Button" Click="clear_table_Button_Click" Margin="10, 50, 10, 0" Width="80" Height="25" Content="Clear"/>

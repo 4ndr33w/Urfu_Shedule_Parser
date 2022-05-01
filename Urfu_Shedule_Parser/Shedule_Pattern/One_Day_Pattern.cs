@@ -29,7 +29,7 @@ namespace Urfu_Shedule_Parser
         public One_Day_Pattern(One_Day_Pattern data)
         {
             string[] date_convert_from_string = data.DateString.Split(' ');
-            //_date = Convert.ToDateTime(date_convert_from_string[0] + "." + date_convert_from_string[1] + '.' + DateTime.Now.Year);
+
             _date_string = data.DateString;
             _lessons = data.Get_Lessons;
             _group_name = data.GroupName;
@@ -41,13 +41,9 @@ namespace Urfu_Shedule_Parser
             _date = default; // Convert.ToDateTime(date_convert_from_string[0] + "." + date_convert_from_string[1] + '.' + DateTime.Now.Year);
             _date_string = date_string;
             _lessons = lesson_collection;
-            //_group_name = group_name;
         }
         public One_Day_Pattern(string date_string, /*string date_string,*/ Lesson_Pattern lesson)
         {
-            //string[] date_convert_from_string = date_string.Split(' ');
-            //_date =  Convert.ToDateTime(date_convert_from_string[0] + "." + date_convert_from_string[1] + '.' + DateTime.Now.Year);
-            //_date_string = date_string;
             _lessons.Add(lesson);
             _date_string = date_string;
         }

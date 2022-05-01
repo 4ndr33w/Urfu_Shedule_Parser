@@ -4,13 +4,11 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-//using System.Windows.Threading;
 
 namespace Urfu_Shedule_Parser.Request
 {
     public class Get_Data
     {
-        //MainWindow Form1 = new MainWindow();
         public string _group_url = Static_Group_Prefix.Prefix; // = Institute_TextBox.Text;; // = "46564"; /*"985795";*/
         public int _group_number = 0;
         string _group_week_date = /*"20220410";*/ DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString();
@@ -29,15 +27,12 @@ namespace Urfu_Shedule_Parser.Request
         public List<string> get_data()
         {
             List<string> returned_request_string = new List<string>(); ;
-            //MainWindow Form1 = new MainWindow();
             One_Day_Pattern Scheme1 = new One_Day_Pattern();
-
 
             var proxy = new WebProxy("127.0.0.1:8888");
             var postRequest = new PostRequest("https://urfu.ru/0c2dd46eb010c6689ce8a9cd86fdeb8b");/*/0c2dd46eb010c6689ce8a9cd86fdeb8b*/
             var Post_cookieContainer = new CookieContainer();
             var Get_cookieContainer = new CookieContainer();
-
 
             if (postRequest != null)
             {
@@ -63,12 +58,6 @@ namespace Urfu_Shedule_Parser.Request
 
                 Thread.Sleep(100);
                 _group_number = Convert.ToInt32(_group_url); // 47691;
-                //var _dispatch = Dispatcher.Invoke (() => _group_number = Convert.ToInt32(Form1.Institute_TextBox.Text) );
-
-                //await Task.Run(() => _group_number = Convert.ToInt32(Form1.Institute_TextBox.Text));
-
-
-
 
                 for (int i = _group_number /*46577*/ /*985754*/ /*985831*/; i < _group_number + 1 /*985755*/ /*985832*/; i++)
                 {
@@ -82,8 +71,6 @@ namespace Urfu_Shedule_Parser.Request
 
                     if (getRequest != null)
                     {
-                        //postRequest.Proxy = proxy;
-
                         getRequest.Accept = "text/html, */*; q=0.01";
                         getRequest.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36";
 
@@ -102,7 +89,6 @@ namespace Urfu_Shedule_Parser.Request
 
                         returned_request_string.Add(getRequest.Response);
                     }
-                    //File.WriteAllText(@"D:\122.txt", returned_request_string);
                     else /*return */returned_request_string.Add(string.Empty);
                 }
             }
