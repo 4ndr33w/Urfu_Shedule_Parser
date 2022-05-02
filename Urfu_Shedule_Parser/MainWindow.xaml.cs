@@ -33,7 +33,8 @@ namespace Urfu_Shedule_Parser
       
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Request.Static_Group_Prefix.Prefix = Institute_TextBox.Text;
+            Institute_TextBox.Text = Properties.Settings.Default.Default_Group_Prefix;
+            //Request.Static_Group_Prefix.Prefix = Institute_TextBox.Text;
             Saving_Data.Data_Base_Class DataBase_Connection = new Saving_Data.Data_Base_Class();
             DataBase_Connection.Sql_Connection_Method();
     }
@@ -41,6 +42,9 @@ namespace Urfu_Shedule_Parser
         private void Start_Parse_Button_Click(object sender, RoutedEventArgs e)
         {
             Request.Static_Group_Prefix.Prefix = Institute_TextBox.Text;
+            Properties.Settings.Default.Default_Group_Prefix = Institute_TextBox.Text;
+            Properties.Settings.Default.Save();
+            Request.Static_Group_Prefix.Prefix = Properties.Settings.Default.Default_Group_Prefix;
             DateTime StartTime = DateTime.Now;
 
             Sorting_Data.Sort_Data sort_data = new Sorting_Data.Sort_Data();
@@ -83,8 +87,8 @@ namespace Urfu_Shedule_Parser
         private void show_result_Button_Click(object sender, RoutedEventArgs e)
         {
             Grid_Data.ItemsSource = _display.DB_Table().DefaultView;
-            Color _color = new Color();
-            _color = (Color)ColorConverter.ConvertFromString("#FF424242");
+            //Color _color = new Color();
+            //_color = (Color)ColorConverter.ConvertFromString("#FF424242");
             //Grid_Data.RowBackground = new SolidColorBrush(_color); //Colors.//#FF424242);
             //Grid_Data.Foreground = new SolidColorBrush(Colors.White);
 
@@ -100,8 +104,8 @@ namespace Urfu_Shedule_Parser
 
             connection.Close();
             _display.DB_Table().Clear();
-            Grid_Data.ItemsSource = null;
-            Grid_Data.RowBackground = new SolidColorBrush(Colors.Black);
+            //Grid_Data.ItemsSource = null;
+            //Grid_Data.RowBackground = new SolidColorBrush(Colors.Black);
         }
     }
 }

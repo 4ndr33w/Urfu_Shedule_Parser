@@ -9,7 +9,7 @@ namespace Urfu_Shedule_Parser.Request
 {
     public class Get_Data
     {
-        public string _group_url = Static_Group_Prefix.Prefix; // = Institute_TextBox.Text;; // = "46564"; /*"985795";*/
+        public string _group_url = Properties.Settings.Default.Default_Group_Prefix; //Static_Group_Prefix.Prefix; // = Institute_TextBox.Text;; // = "46564"; /*"985795";*/
         public int _group_number = 0;
         string _group_week_date = /*"20220410";*/ DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString();
 

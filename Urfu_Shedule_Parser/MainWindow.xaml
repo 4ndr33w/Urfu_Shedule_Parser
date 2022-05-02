@@ -24,13 +24,14 @@
                           Background="#FF424242" 
                           RowBackground="#FF424242" 
                           Foreground="White" 
-                          AlternatingRowBackground="#FF424242"
                           HorizontalGridLinesBrush="White"
+                          
                           VerticalGridLinesBrush="White">
                     <DataGrid.Resources>
                         <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType ="{x:Type DataGridColumnHeader}">
                             <Setter Property="Background" Value="Black"/>
                         </Style>
+
                     </DataGrid.Resources>
                     
 
@@ -71,7 +72,7 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="10">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="110, 0, 0, 0">
                     <Label Content="Институт:" Margin=" 10" HorizontalAlignment="Center" Foreground="White"/>
-                    <TextBox x:Name="Institute_TextBox"  Background="Transparent" Foreground="White" Text="47631" HorizontalContentAlignment="Center" Margin="15,0,15,0" Width="100" BorderThickness="2" BorderBrush="Red"/>
+                    <TextBox x:Name="Institute_TextBox" CaretBrush="White"  Background="Transparent" Foreground="White" HorizontalContentAlignment="Center" Margin="15,0,15,0" Width="100" BorderThickness="2" BorderBrush="Red"/>
 
                 </StackPanel>
 
