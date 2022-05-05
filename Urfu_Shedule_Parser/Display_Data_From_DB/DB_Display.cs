@@ -37,12 +37,15 @@ namespace Urfu_Shedule_Parser.Display_Data_From_DB
         //    return data;
         //}
 
-        public DataTable DB_Table()
+        public DataTable DB_Table(string sql_string)
         {
             var _connection = DB_Connect.sql_connection_return();
             _connection.Open();
             DataTable dt = new DataTable();
-            SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM Shedule", _connection);
+            SqlCommand command = new SqlCommand(sql_string, _connection);
+            SqlDataAdapter adapter = new SqlDataAdapter(command/*"SELECT * FROM Shedule"*/);
+            
+            command.ExecuteNonQuery();
             DataSet _dataSet = new DataSet();
             adapter.Fill(_dataSet, "_shedule");
             dt = _dataSet.Tables["_shedule"];

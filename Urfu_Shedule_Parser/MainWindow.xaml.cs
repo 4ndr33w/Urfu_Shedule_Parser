@@ -7,6 +7,7 @@ using System.Windows;
 using Urfu_Shedule_Parser.Shedule_Pattern;
 using System.Data.SqlClient;
 using System.Windows.Media;
+using System.Globalization;
 
 namespace Urfu_Shedule_Parser
 {
@@ -21,6 +22,7 @@ namespace Urfu_Shedule_Parser
         ObservableCollection<Lesson_Pattern> Lessons = new ObservableCollection<Lesson_Pattern>();
         List<string> get_response = new List<string>();
         Request.Get_Data run_test = new Request.Get_Data();
+        CultureInfo _culture = CultureInfo.CreateSpecificCulture("ru-RU");
 
         Display_Data_From_DB.DB_Display _display = new Display_Data_From_DB.DB_Display();
 
@@ -85,20 +87,67 @@ namespace Urfu_Shedule_Parser
 
         private void show_result_Button_Click(object sender, RoutedEventArgs e)
         {
-            Grid_Data.ItemsSource = _display.DB_Table().DefaultView;
-            Grid_Data.AutoGenerateColumns = false;
+            Grid_Data.ItemsSource = _display.DB_Table("SELECT * FROM Shedule").DefaultView;
         }
 
         private void clear_table_Button_Click(object sender, RoutedEventArgs e)
         {
-            Saving_Data.Data_Base_Class DataBase_Connection = new Saving_Data.Data_Base_Class();
-            var connection = DataBase_Connection.sql_connection_return();
-            connection.Open();
-            SqlCommand command = new SqlCommand("DELETE FROM DataTable", connection);
-            command.ExecuteNonQuery();
+            
+            try
+            {
+                if (Grid_Data.ItemsSource != null && Grid_Data != null && _display.DB_Table("DELETE FROM [Shedule]") != null)
+                {
+                    Grid_Data.ItemsSource = _display.DB_Table("DELETE FROM [Shedule]").DefaultView;
+                }
+            }
+            catch (Exception)
+            {
+                return;
+            }
+           
+        }
 
-            connection.Close();
-            _display.DB_Table().Clear();
+        private void Today_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            string _today_str = DateTime.Today.ToString("dd MMMM", _culture);
+            //Grid_Data.ItemsSource = _display.DB_Table($"SELECT * FROM Shedule WHERE Shedule.Date LIKE ('%{_today_str}%')").DefaultView;
+            Grid_Data.ItemsSource = _display.DB_Table($"SELECT * FROM Shedule WHERE Shedule.Date = N'{_today_str}'").DefaultView;
+        }
+
+        private void Tomorrow_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime tomorrow = DateTime.Today.AddDays(1);
+            string tomorrow_str = tomorrow.ToString("dd MMMM", _culture);
+
+            Grid_Data.ItemsSource = _display.DB_Table($"SELECT * FROM Shedule WHERE Shedule.Date = N'{tomorrow_str}'").DefaultView;
+        }
+
+        private void Current_Btn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Next_Btn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void This_Week_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime _sunday_date = DateTime.Today.AddDays(7 - (int)DateTime.Today.DayOfWeek);
+            TimeSpan _span_days = _sunday_date - DateTime.Today;
+            string _sunday_str = _sunday_date.ToString("dd MMMM", _culture);
+            string _today_str = DateTime.Today.ToString("dd MMMM", _culture);
+             DateTime tomorrow = DateTime.Today.AddDays(1);
+            string tomorrow_str = tomorrow.ToString("dd MMMM", _culture);
+            string _sql_str = $"SELECT * FROM Shedule WHERE Shedule.Date BETWEEN'{_today_str}' AND '{_sunday_str}'";
+            //for (int i = 1; i < (int)_span_days.TotalDays; i++)
+            //{
+            //    _sql_str += $" AND Shedule.Date = '{DateTime.Today.AddDays(i).ToString("dd MMMM", _culture)}'";
+            //}
+
+            Grid_Data.ItemsSource = _display.DB_Table(_sql_str).DefaultView;
+
         }
     }
 }
