@@ -88,13 +88,16 @@
             <Button x:Name="clear_table_Button" Click="clear_table_Button_Click" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 50, 10, 0" Width="80" Height="25" Content="Clear"/>
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button IsEnabled="False" x:Name="Current_Btn" Click="Current_Btn_Click" Content="Now" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 50, 10, 0" Width="80" Height="25"/>
+                    <Button IsEnabled="False"  x:Name="Current_Btn" Click="Current_Btn_Click" Content="Now" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 50, 10, 0" Width="80" Height="25"/>
                     <Button IsEnabled="False" x:Name="Next_Btn" Click="Next_Btn_Click" Content="Next" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 50, 10, 0" Width="80" Height="25"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button x:Name="Today_Btn" Click="Today_Btn_Click" Content="Today" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 20, 10, 0" Width="80" Height="25"/>
                     <Button x:Name="Tomorrow_Btn" Click="Tomorrow_Btn_Click" Content="Tomorrow" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 20, 10, 0" Width="80" Height="25"/>
                     <Button x:Name="This_Week_Btn" Click="This_Week_Btn_Click" Content="Week" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 20, 10, 0" Width="80" Height="25"/>
+                </StackPanel>
+                <StackPanel>
+                    <Button x:Name="NextWeek_Btn" Click="NextWeek_Btn_Click" Content="Next Week" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 20, 10, 0" Width="80" Height="25"/>
                 </StackPanel>
             </StackPanel>
             

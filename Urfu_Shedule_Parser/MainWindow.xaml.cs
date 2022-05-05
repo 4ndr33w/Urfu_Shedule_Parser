@@ -124,7 +124,7 @@ namespace Urfu_Shedule_Parser
 
         private void Current_Btn_Click(object sender, RoutedEventArgs e)
         {
-
+           
         }
 
         private void Next_Btn_Click(object sender, RoutedEventArgs e)
@@ -135,19 +135,23 @@ namespace Urfu_Shedule_Parser
         private void This_Week_Btn_Click(object sender, RoutedEventArgs e)
         {
             DateTime _sunday_date = DateTime.Today.AddDays(7 - (int)DateTime.Today.DayOfWeek);
-            TimeSpan _span_days = _sunday_date - DateTime.Today;
             string _sunday_str = _sunday_date.ToString("dd MMMM", _culture);
             string _today_str = DateTime.Today.ToString("dd MMMM", _culture);
-             DateTime tomorrow = DateTime.Today.AddDays(1);
-            string tomorrow_str = tomorrow.ToString("dd MMMM", _culture);
             string _sql_str = $"SELECT * FROM Shedule WHERE Shedule.Date BETWEEN'{_today_str}' AND '{_sunday_str}'";
-            //for (int i = 1; i < (int)_span_days.TotalDays; i++)
-            //{
-            //    _sql_str += $" AND Shedule.Date = '{DateTime.Today.AddDays(i).ToString("dd MMMM", _culture)}'";
-            //}
 
             Grid_Data.ItemsSource = _display.DB_Table(_sql_str).DefaultView;
 
+        }
+
+        private void NextWeek_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime _sunday_date = DateTime.Today.AddDays(7 - (int)DateTime.Today.DayOfWeek);
+            DateTime _next_sunday = DateTime.Today.AddDays(14 - (int)DateTime.Today.DayOfWeek);
+            string _sunday_str = _sunday_date.ToString("dd MMMM", _culture);
+            string _next_sunday_str = _next_sunday.ToString("dd MMMM", _culture);
+            string _sql_str = $"SELECT * FROM Shedule WHERE Shedule.Date BETWEEN'{_sunday_str}' AND '{_next_sunday_str}'";
+
+            Grid_Data.ItemsSource = _display.DB_Table(_sql_str).DefaultView;
         }
     }
 }
