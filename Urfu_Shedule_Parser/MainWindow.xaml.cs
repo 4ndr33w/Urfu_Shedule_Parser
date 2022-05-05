@@ -34,7 +34,6 @@ namespace Urfu_Shedule_Parser
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Institute_TextBox.Text = Properties.Settings.Default.Default_Group_Prefix;
-            //Request.Static_Group_Prefix.Prefix = Institute_TextBox.Text;
             Saving_Data.Data_Base_Class DataBase_Connection = new Saving_Data.Data_Base_Class();
             DataBase_Connection.Sql_Connection_Method();
     }
@@ -87,11 +86,7 @@ namespace Urfu_Shedule_Parser
         private void show_result_Button_Click(object sender, RoutedEventArgs e)
         {
             Grid_Data.ItemsSource = _display.DB_Table().DefaultView;
-            //Color _color = new Color();
-            //_color = (Color)ColorConverter.ConvertFromString("#FF424242");
-            //Grid_Data.RowBackground = new SolidColorBrush(_color); //Colors.//#FF424242);
-            //Grid_Data.Foreground = new SolidColorBrush(Colors.White);
-
+            Grid_Data.AutoGenerateColumns = false;
         }
 
         private void clear_table_Button_Click(object sender, RoutedEventArgs e)
@@ -104,8 +99,6 @@ namespace Urfu_Shedule_Parser
 
             connection.Close();
             _display.DB_Table().Clear();
-            //Grid_Data.ItemsSource = null;
-            //Grid_Data.RowBackground = new SolidColorBrush(Colors.Black);
         }
     }
 }

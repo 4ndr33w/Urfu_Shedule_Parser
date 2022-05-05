@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Urfu_Shedule_Parser"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
-        Title="Parser" Height="450" Width="800">
+        Title="Parser" Height="800" Width="1650">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -24,24 +24,29 @@
                           Background="#FF424242" 
                           RowBackground="#FF424242" 
                           Foreground="White" 
-                          HorizontalGridLinesBrush="White"
-                          
-                          VerticalGridLinesBrush="White">
+                          HorizontalGridLinesBrush="Gray"
+                          VerticalGridLinesBrush="Gray"
+                          HorizontalContentAlignment="Center"
+                          HorizontalAlignment="Stretch">
                     <DataGrid.Resources>
                         <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType ="{x:Type DataGridColumnHeader}">
                             <Setter Property="Background" Value="Black"/>
+                            <Setter Property="BorderThickness" Value="3"/>
+                            <Setter Property="BorderBrush" Value="DarkGray"/>
                         </Style>
-
                     </DataGrid.Resources>
-                    
-
-                    <!--<Grid.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#FF1D1D1D"/>
-                            <GradientStop Color="#FF424242" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Grid.Background>-->
+                    <DataGrid.Columns>
+                        <DataGridTextColumn x:Name="id_num" Binding="{Binding Id}" Header=" ID " IsReadOnly="True"/>
+                        <DataGridTextColumn x:Name="Date" Binding="{Binding Date}" Header=" Дата " IsReadOnly="True"/>
+                        <DataGridTextColumn x:Name="Duration" Binding="{Binding Duration}" Header=" Продолжительность " IsReadOnly="True"/>
+                        <DataGridTextColumn x:Name="LessonNumber" Binding="{Binding LessonNumber}" Header=" Номер пары " IsReadOnly="True"/>
+                        <DataGridTextColumn x:Name="LessonName" Binding="{Binding LessonName}" Header=" Наименование дисциплины " IsReadOnly="True"/>
+                        <DataGridTextColumn x:Name="Chamber" Binding="{Binding Chamber}" Header=" Где " IsReadOnly="True"/>
+                        <DataGridTextColumn x:Name="Teacher" Binding="{Binding Teacher}" Header=" Преподаватель " IsReadOnly="True"/>
+                        <DataGridTextColumn x:Name="GroupName" Binding="{Binding GroupName}" Header=" Группа " IsReadOnly="True"/>
+                    </DataGrid.Columns>
                 </DataGrid>
+               
             </TabItem>
             <TabItem Header="ListBox" IsEnabled="False">
                 <ListBox x:Name="List_Box" Grid.Column="0" Margin="10,10,10,10">
@@ -73,9 +78,7 @@
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="110, 0, 0, 0">
                     <Label Content="Институт:" Margin=" 10" HorizontalAlignment="Center" Foreground="White"/>
                     <TextBox x:Name="Institute_TextBox" CaretBrush="White"  Background="Transparent" Foreground="White" HorizontalContentAlignment="Center" Margin="15,0,15,0" Width="100" BorderThickness="2" BorderBrush="Red"/>
-
                 </StackPanel>
-
             </StackPanel>
             <Label/>
             <Image Height="38" Source="/2022-05-01_21-19-46.png" Stretch="Fill" Width="352"/>
