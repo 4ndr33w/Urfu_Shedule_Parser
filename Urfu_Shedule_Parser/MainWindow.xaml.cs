@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Urfu_Shedule_Parser.Shedule_Pattern;
-using System.Data.SqlClient;
-using System.Windows.Media;
 using System.Globalization;
+using System.Data.SqlClient;
+using System.Timers;
 
 namespace Urfu_Shedule_Parser
 {
@@ -23,10 +23,10 @@ namespace Urfu_Shedule_Parser
         List<string> get_response = new List<string>();
         Request.Get_Data run_test = new Request.Get_Data();
         CultureInfo _culture = CultureInfo.CreateSpecificCulture("ru-RU");
+        Saving_Data.Data_Base_Class _sql_check = new Saving_Data.Data_Base_Class();
 
         Display_Data_From_DB.DB_Display _display = new Display_Data_From_DB.DB_Display();
 
-        string connection_String = Properties.Resources.ConnectionString; //ConfigurationManager.ConnectionStrings[0].ConnectionString.ToString();
         public MainWindow()
         {
             InitializeComponent();
@@ -42,6 +42,7 @@ namespace Urfu_Shedule_Parser
 
         private void Start_Parse_Button_Click(object sender, RoutedEventArgs e)
         {
+
             Request.Static_Group_Prefix.Prefix = Institute_TextBox.Text;
             Properties.Settings.Default.Default_Group_Prefix = Institute_TextBox.Text;
             Properties.Settings.Default.Save();
@@ -49,6 +50,27 @@ namespace Urfu_Shedule_Parser
             DateTime StartTime = DateTime.Now;
 
             Sorting_Data.Sort_Data sort_data = new Sorting_Data.Sort_Data();
+
+            //while (false)
+            //{
+            //    clear_table_Button.IsEnabled = false;
+            //    show_result_Button.IsEnabled = false;
+            //    Current_Btn.IsEnabled = false;
+            //    Next_Btn.IsEnabled = false;
+            //    Today_Btn.IsEnabled = false;
+            //    Tomorrow_Btn.IsEnabled = false;
+            //    This_Week_Btn.IsEnabled = false;
+            //    Next_Btn.IsEnabled = false;
+            //    sort_data.SqlConnectionState_Check(_sql_check.sql_connection_return()); // через TimeEvent ждём когда откроется sql_connection
+            //}
+            //clear_table_Button.IsEnabled = true;
+            //show_result_Button.IsEnabled = true;
+            ////Current_Btn.IsEnabled = true;
+            ////Next_Btn.IsEnabled = true;
+            //Today_Btn.IsEnabled = true;
+            //Tomorrow_Btn.IsEnabled = true;
+            //This_Week_Btn.IsEnabled = true;
+            //NextWeek_Btn.IsEnabled = true;
 
             Task.Run(() =>
             {
@@ -109,17 +131,19 @@ namespace Urfu_Shedule_Parser
 
         private void Today_Btn_Click(object sender, RoutedEventArgs e)
         {
-            string _today_str = DateTime.Today.ToString("dd MMMM", _culture);
-            //Grid_Data.ItemsSource = _display.DB_Table($"SELECT * FROM Shedule WHERE Shedule.Date LIKE ('%{_today_str}%')").DefaultView;
-            Grid_Data.ItemsSource = _display.DB_Table($"SELECT * FROM Shedule WHERE Shedule.Date = N'{_today_str}'").DefaultView;
+            string _today_date_str = DateTime.Today.ToString("dd MMMM", _culture);
+            string _today_sql_string = $"SELECT * FROM Shedule WHERE Shedule.Date = N'{_today_date_str}'";
+
+            Grid_Data.ItemsSource = _display.DB_Table(_today_sql_string).DefaultView;
         }
 
         private void Tomorrow_Btn_Click(object sender, RoutedEventArgs e)
         {
             DateTime tomorrow = DateTime.Today.AddDays(1);
-            string tomorrow_str = tomorrow.ToString("dd MMMM", _culture);
+            string tomorrow_date_str = tomorrow.ToString("dd MMMM", _culture);
+            string tomorrow_sql_string = $"SELECT * FROM Shedule WHERE Shedule.Date = N'{tomorrow_date_str}'";
 
-            Grid_Data.ItemsSource = _display.DB_Table($"SELECT * FROM Shedule WHERE Shedule.Date = N'{tomorrow_str}'").DefaultView;
+            Grid_Data.ItemsSource = _display.DB_Table(tomorrow_sql_string).DefaultView;
         }
 
         private void Current_Btn_Click(object sender, RoutedEventArgs e)
@@ -137,9 +161,9 @@ namespace Urfu_Shedule_Parser
             DateTime _sunday_date = DateTime.Today.AddDays(7 - (int)DateTime.Today.DayOfWeek);
             string _sunday_str = _sunday_date.ToString("dd MMMM", _culture);
             string _today_str = DateTime.Today.ToString("dd MMMM", _culture);
-            string _sql_str = $"SELECT * FROM Shedule WHERE Shedule.Date BETWEEN'{_today_str}' AND '{_sunday_str}'";
+            string _this_week_sql_string = $"SELECT * FROM Shedule WHERE Shedule.Date BETWEEN'{_today_str}' AND '{_sunday_str}'";
 
-            Grid_Data.ItemsSource = _display.DB_Table(_sql_str).DefaultView;
+            Grid_Data.ItemsSource = _display.DB_Table(_this_week_sql_string).DefaultView;
 
         }
 
@@ -149,9 +173,9 @@ namespace Urfu_Shedule_Parser
             DateTime _next_sunday = DateTime.Today.AddDays(14 - (int)DateTime.Today.DayOfWeek);
             string _sunday_str = _sunday_date.ToString("dd MMMM", _culture);
             string _next_sunday_str = _next_sunday.ToString("dd MMMM", _culture);
-            string _sql_str = $"SELECT * FROM Shedule WHERE Shedule.Date BETWEEN'{_sunday_str}' AND '{_next_sunday_str}'";
+            string _next_week_sql_string = $"SELECT * FROM Shedule WHERE Shedule.Date BETWEEN'{_sunday_str}' AND '{_next_sunday_str}'";
 
-            Grid_Data.ItemsSource = _display.DB_Table(_sql_str).DefaultView;
+            Grid_Data.ItemsSource = _display.DB_Table(_next_week_sql_string).DefaultView;
         }
     }
 }

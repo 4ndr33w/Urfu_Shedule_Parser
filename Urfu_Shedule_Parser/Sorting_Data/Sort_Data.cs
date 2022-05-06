@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Windows;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Urfu_Shedule_Parser.Sorting_Data
 {
@@ -17,12 +18,13 @@ namespace Urfu_Shedule_Parser.Sorting_Data
         ObservableCollection<One_Day_Pattern> _one_day_shedule = new ObservableCollection<One_Day_Pattern>();
         ObservableCollection<Lesson_Pattern> _lessons_list_of_day = new ObservableCollection<Lesson_Pattern>();
 
+        //Saving_Data.Data_Base_Class _sql_status_request = new Saving_Data.Data_Base_Class();
+        private System.Timers.Timer event_timer;
+
         public Weekly_Shedule_Pattern Week_Shedule_List = new Weekly_Shedule_Pattern();
         Lesson_Pattern _lesson = new Lesson_Pattern();
         List<string> _raw_shedule_strings__splittet_by_days = new List<string>();
         One_Day_Pattern _one_day = new One_Day_Pattern();
-        string test = "";
-        int counter = 0;
 
         Saving_Data.Data_Base_Class DB_Fills = new Saving_Data.Data_Base_Class();
 
@@ -39,6 +41,7 @@ namespace Urfu_Shedule_Parser.Sorting_Data
 
             int One_Day_List_StartIndex = data.IndexOf("<b>");
             int One_Day_List_EndIndex = data.IndexOf("<td colspan=\"3\"> </td>", One_Day_List_StartIndex);
+            
             while (One_Day_List_StartIndex > -1 && One_Day_List_EndIndex > One_Day_List_StartIndex)
             {
                 string _one_day_string = _response.Substring(One_Day_List_StartIndex, One_Day_List_EndIndex - One_Day_List_StartIndex);
@@ -56,14 +59,16 @@ namespace Urfu_Shedule_Parser.Sorting_Data
             }
             foreach (var item in _raw_shedule_strings__splittet_by_days)
             {
-
                 _one_day_shedule.Add(new One_Day_Pattern(Dayly_Shedule_Sort(item)));
-
             }
             int id = 0;
 
-            Thread.Sleep(2000); // ждём пока откроется соединение с БД. джём именно таким методом так - потому что по-другому пока не умею
-            Task.WaitAll();
+            while (false)
+            {
+                SqlConnectionState_Check(connection); // ждём когда откроется sql_connection
+            }
+            //Thread.Sleep(2000); // ждём пока откроется соединение с БД. джём именно таким методом так - потому что по-другому пока не умею
+
             sql_command = new SqlCommand("DELETE FROM Shedule", connection);
             sql_command.ExecuteNonQuery();
 
@@ -82,6 +87,20 @@ namespace Urfu_Shedule_Parser.Sorting_Data
 
             return Week_Shedule_List;
 
+        }
+        public bool SqlConnectionState_Check(SqlConnection connection)
+        {
+            TimeEvent();
+
+            if (connection.State == System.Data.ConnectionState.Open) return false;
+            else return true;
+        }
+        public void TimeEvent()
+        {
+            event_timer = new System.Timers.Timer();
+            event_timer.Interval = 100;
+            event_timer.AutoReset = true;
+            event_timer.Enabled = true;
         }
 
         private One_Day_Pattern Dayly_Shedule_Sort(string data)
@@ -121,9 +140,6 @@ namespace Urfu_Shedule_Parser.Sorting_Data
                             {
                                 _discipline += _discipline_splitted[i] + " "; 
                             }
-                            char[] Array_of_discipline_symbols = new char[_discipline.Length];
-                            string _temporary_discipline_string = "";
-
                             _lesson.Discipline = _discipline;
 
                             _day = _day.Substring(_day.IndexOf("</dd>"));
@@ -152,13 +168,10 @@ namespace Urfu_Shedule_Parser.Sorting_Data
                                 {
                                     _cabinet += _cabinet_splitted[i] + ' ';
                                 }
-                                char[] Array_of_cabinet_symbols = new char[_cabinet.Length];
-                                string _temporary_cabinet_string = "";
 
                                 _lesson.Chamber = _cabinet;
                                 _day = _day.Substring(_day.IndexOf("</span>", _cabinet_StartIndex));
                             }
-
 
                             int _teacher_StartIndex = _day.IndexOf("<span class=\"teacher\">");
                                 if (_teacher_StartIndex < 0) 

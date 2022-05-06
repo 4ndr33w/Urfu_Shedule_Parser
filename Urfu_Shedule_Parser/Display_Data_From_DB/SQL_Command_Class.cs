@@ -14,16 +14,13 @@ namespace Urfu_Shedule_Parser.Display_Data_From_DB
         {
             return _answer;
         }
-        //CultureInfo _culture = CultureInfo.CreateSpecificCulture("ru-RU");//reateSpecificCulture("ru-RU");
-        //DateTime today_date = DateTime.Today; //.ToString("d, MMMM", CultureInfo.CreateSpecificCulture("ru-RU")).Dump();
-        /*string _today_date_str =*///today_date.ToString("d MMMM", _culture).Dump();
+
         private static string _today_date ()
         {
             CultureInfo _culture = CultureInfo.CreateSpecificCulture("ru-RU");//reateSpecificCulture("ru-RU");
             DateTime today_date = DateTime.Today; //.ToString("d, MMMM", CultureInfo.CreateSpecificCulture("ru-RU")).Dump();
             return today_date.ToString("dd MMMM", _culture);
         }
-        //string _today_date_str = _today_date();
 
         public string Today_Lessons { get { return _sql_today_lessons; } }
         public string Today_Date { get { return _today_date(); } }

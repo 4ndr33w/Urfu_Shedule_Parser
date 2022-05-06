@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Urfu_Shedule_Parser"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
-        Title="Parser" Height="800" Width="1650">
+        Title="Parser" Height="800" Width="1650" MinHeight="600" MinWidth="1000">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -41,9 +41,21 @@
                         <DataGridTextColumn x:Name="Date" Binding="{Binding Date}" Header=" Дата " IsReadOnly="True"/>
                         <DataGridTextColumn x:Name="Duration" Binding="{Binding Duration}" Header=" Продолжительность " IsReadOnly="True"/>
                         <DataGridTextColumn x:Name="LessonNumber" Binding="{Binding LessonNumber}" Header=" Номер пары " IsReadOnly="True"/>
-                        <DataGridTextColumn x:Name="LessonName" Binding="{Binding LessonName}" Header=" Наименование дисциплины " IsReadOnly="True"/>
+                        <DataGridTextColumn x:Name="LessonName" Binding="{Binding LessonName}" Header=" Наименование дисциплины " IsReadOnly="True" Width="400" MaxWidth="400" MinWidth="400">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                         <DataGridTextColumn x:Name="Chamber" Binding="{Binding Chamber}" Header=" Где " IsReadOnly="True"/>
-                        <DataGridTextColumn x:Name="Teacher" Binding="{Binding Teacher}" Header=" Преподаватель " IsReadOnly="True"/>
+                        <DataGridTextColumn x:Name="Teacher" Binding="{Binding Teacher}" Header=" Преподаватель " IsReadOnly="True" Width="300" MaxWidth="300" MinWidth="300">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                         <DataGridTextColumn x:Name="GroupName" Binding="{Binding GroupName}" Header=" Группа " IsReadOnly="True"/>
                     </DataGrid.Columns>
                 </DataGrid>
@@ -84,20 +96,23 @@
             <Label/>
             <Image Height="38" Source="/2022-05-01_21-19-46.png" Stretch="Fill" Width="352"/>
             <Button Click="Start_Parse_Button_Click" x:Name="Start_Parse_Button" BorderBrush="White" Background="Transparent" Foreground="White" Content="start" Width="80" Height="25" Margin="10,50,10,0"/>
-            <Button x:Name="show_result_Button" Click="show_result_Button_Click" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 50, 10, 0" Width="80" Height="25" Content="Show"/>
-            <Button x:Name="clear_table_Button" Click="clear_table_Button_Click" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 50, 10, 0" Width="80" Height="25" Content="Clear"/>
+           
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button IsEnabled="False"  x:Name="Current_Btn" Click="Current_Btn_Click" Content="Now" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 50, 10, 0" Width="80" Height="25"/>
-                    <Button IsEnabled="False" x:Name="Next_Btn" Click="Next_Btn_Click" Content="Next" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 50, 10, 0" Width="80" Height="25"/>
+                    <Button x:Name="show_result_Button" Click="show_result_Button_Click" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 100, 10, 0" Width="120" Height="25" Content="Показать все записи"/>
+                    <Button x:Name="clear_table_Button" Click="clear_table_Button_Click" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 100, 10, 0" Width="120" Height="25" Content="Очистить список"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button x:Name="Today_Btn" Click="Today_Btn_Click" Content="Today" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 20, 10, 0" Width="80" Height="25"/>
-                    <Button x:Name="Tomorrow_Btn" Click="Tomorrow_Btn_Click" Content="Tomorrow" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 20, 10, 0" Width="80" Height="25"/>
-                    <Button x:Name="This_Week_Btn" Click="This_Week_Btn_Click" Content="Week" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 20, 10, 0" Width="80" Height="25"/>
+                    <Button IsEnabled="False" x:Name="Current_Btn" Click="Current_Btn_Click" Content="Текущая пара" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 50, 10, 0" Width="120" Height="25"/>
+                    <Button IsEnabled="False" x:Name="Next_Btn" Click="Next_Btn_Click" Content="Следующая пара" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 50, 10, 0" Width="120" Height="25"/>
                 </StackPanel>
-                <StackPanel>
-                    <Button x:Name="NextWeek_Btn" Click="NextWeek_Btn_Click" Content="Next Week" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 20, 10, 0" Width="80" Height="25"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button x:Name="Today_Btn" Click="Today_Btn_Click" Content="Сегодня" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 10, 10, 0" Width="120" Height="25"/>
+                    <Button x:Name="Tomorrow_Btn" Click="Tomorrow_Btn_Click" Content="Завтра" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 10, 10, 0" Width="120" Height="25"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button x:Name="This_Week_Btn" Click="This_Week_Btn_Click" Content="Текущая неделя" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 10, 10, 0" Width="120" Height="25"/>
+                    <Button x:Name="NextWeek_Btn" Click="NextWeek_Btn_Click" Content="Следующая неделя" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 10, 10, 0" Width="120" Height="25"/>
                 </StackPanel>
             </StackPanel>
             
