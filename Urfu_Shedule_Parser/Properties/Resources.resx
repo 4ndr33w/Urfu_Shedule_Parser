@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="MySQL_Beget_Server" xml:space="preserve">
-    <value>andr33w.beget.tech</value>
+    <value>Server</value>
   </data>
   <data name="MySQL_DB_Name" xml:space="preserve">
-    <value>andr33w_shedule</value>
+    <value>DBName</value>
   </data>
   <data name="MySQL_pass" xml:space="preserve">
-    <value>Ldb%d3LI</value>
+    <value>Password</value>
   </data>
   <data name="Shedule_url" xml:space="preserve">
     <value>https://urfu.ru/api/schedule/groups/lessons</value>
