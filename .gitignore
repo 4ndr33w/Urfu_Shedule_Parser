@@ -3,6 +3,12 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Resources
+Urfu_Shedule_Parser/Properties/Resources.Designer.cs
+Urfu_Shedule_Parser/Properties/Resources.resx
+Urfu_Shedule_Parser/Properties/App.config
+Urfu_Shedule_Parser/App.config
+
 # User-specific files
 *.rsuser
 *.suo
@@ -362,8 +368,3 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# Resources
-/Urfu_Shedule_Parser/Properties/Resources.Designer.cs
-/Urfu_Shedule_Parser/Properties/Resources.resx
-/Urfu_Shedule_Parser/Properties/App.config
-/Urfu_Shedule_Parser/App.config
