@@ -61,7 +61,7 @@ namespace Urfu_Shedule_Parser.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на andr33w.beget.tech.
+        ///   Ищет локализованную строку, похожую на Server.
         /// </summary>
         internal static string MySQL_Beget_Server {
             get {
@@ -70,7 +70,7 @@ namespace Urfu_Shedule_Parser.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на andr33w_shedule.
+        ///   Ищет локализованную строку, похожую на DBName.
         /// </summary>
         internal static string MySQL_DB_Name {
             get {
@@ -79,7 +79,7 @@ namespace Urfu_Shedule_Parser.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Ldb%d3LI.
+        ///   Ищет локализованную строку, похожую на Password.
         /// </summary>
         internal static string MySQL_pass {
             get {
@@ -106,7 +106,7 @@ namespace Urfu_Shedule_Parser.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Shedule.
+        ///   Ищет локализованную строку, похожую на TableName.
         /// </summary>
         internal static string TableName {
             get {
