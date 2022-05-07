@@ -61,11 +61,29 @@ namespace Urfu_Shedule_Parser.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\My_Projects\C#_Projects\2022\Urfu_Shedule_Parser\Urfu_Shedule_Parser\Saving_Data\Database_11.mdf;Integrated Security=True.
+        ///   Ищет локализованную строку, похожую на andr33w.beget.tech.
         /// </summary>
-        internal static string ConnectionString {
+        internal static string MySQL_Beget_Server {
             get {
-                return ResourceManager.GetString("ConnectionString", resourceCulture);
+                return ResourceManager.GetString("MySQL_Beget_Server", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на andr33w_shedule.
+        /// </summary>
+        internal static string MySQL_DB_Name {
+            get {
+                return ResourceManager.GetString("MySQL_DB_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ldb%d3LI.
+        /// </summary>
+        internal static string MySQL_pass {
+            get {
+                return ResourceManager.GetString("MySQL_pass", resourceCulture);
             }
         }
         

@@ -103,8 +103,8 @@
                     <Button x:Name="clear_table_Button" Click="clear_table_Button_Click" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 100, 10, 0" Width="120" Height="25" Content="Очистить список"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button IsEnabled="False" x:Name="Current_Btn" Click="Current_Btn_Click" Content="Текущая пара" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 50, 10, 0" Width="120" Height="25"/>
-                    <Button IsEnabled="False" x:Name="Next_Btn" Click="Next_Btn_Click" Content="Следующая пара" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 50, 10, 0" Width="120" Height="25"/>
+                    <Button x:Name="Current_Btn" Click="Current_Btn_Click" Content="Текущая пара" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 50, 10, 0" Width="120" Height="25"/>
+                    <Button x:Name="Next_Btn" Click="Next_Btn_Click" Content="Следующая пара" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 50, 10, 0" Width="120" Height="25"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button x:Name="Today_Btn" Click="Today_Btn_Click" Content="Сегодня" BorderBrush="White" Background="Transparent" Foreground="White" Margin="10, 10, 10, 0" Width="120" Height="25"/>

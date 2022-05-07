@@ -8,6 +8,7 @@ using System.Windows;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
+using MySql.Data.MySqlClient;
 
 namespace Urfu_Shedule_Parser.Sorting_Data
 {
@@ -25,7 +26,7 @@ namespace Urfu_Shedule_Parser.Sorting_Data
         Lesson_Pattern _lesson = new Lesson_Pattern();
         List<string> _raw_shedule_strings__splittet_by_days = new List<string>();
         One_Day_Pattern _one_day = new One_Day_Pattern();
-        Display_Data_From_DB.SQL_Command_Class _sql_command = new Display_Data_From_DB.SQL_Command_Class();
+        Display_Data_From_DB.SQL_Command_Class _sql_request = new Display_Data_From_DB.SQL_Command_Class();
 
         Saving_Data.Data_Base_Class DB_Fills = new Saving_Data.Data_Base_Class();
 
@@ -33,7 +34,7 @@ namespace Urfu_Shedule_Parser.Sorting_Data
         {
             DB_Fills.Sql_Connection_Method();
             
-            SqlConnection connection = DB_Fills.sql_connection_return();
+            MySqlConnection connection = DB_Fills.sql_connection_return();
             _response = data;
             if (_response != string.Empty || _response.Substring(_response.IndexOf("Группа "), 25).Split(' ') != null)
             {
@@ -41,7 +42,7 @@ namespace Urfu_Shedule_Parser.Sorting_Data
                 string[] group_splitted = /*new string[] { " ", " " };*/_response.Substring(_response.IndexOf("Группа "), 25).Split(' ');
                 _group_name = /*group_splitted[0] + ' ' + */group_splitted[1];
 
-                SqlCommand sql_command = null;
+                MySqlCommand sql_command = null;
 
                 int One_Day_List_StartIndex = data.IndexOf("<b>");
                 int One_Day_List_EndIndex = data.IndexOf("<td colspan=\"3\"> </td>", One_Day_List_StartIndex);
@@ -72,19 +73,21 @@ namespace Urfu_Shedule_Parser.Sorting_Data
                     SqlConnectionState_Check(connection); // ждём когда откроется sql_connection
                     Thread.Sleep(100);
                 }
+                MessageBox.Show(connection.State.ToString());
                 //Thread.Sleep(2000); // ждём пока откроется соединение с БД. джём именно таким методом так - потому что по-другому пока не умею
-                string clear_table = _sql_command.Clear_Table;
-                string _tableName = Properties.Resources.TableName;
+                string clear_table = _sql_request.Clear_Table;
+                //string _tableName = Properties.Resources.TableName;
+                string _insert_Into_Table = _sql_request.Insert_IntoTable_WithoutValues;
 
-                sql_command = new SqlCommand(clear_table, connection);
+                sql_command = new MySqlCommand(clear_table, connection);
                 sql_command.ExecuteNonQuery();
 
                 foreach (var item in _one_day_shedule[0].Get_Lessons)
                 {
                     id++;
-
-                    sql_command = new SqlCommand(
-                        $"INSERT INTO [{_tableName}] (Id, Date, Duration, LessonNumber, LessonName, Chamber, LessonType, Teacher, GroupName) VALUES ('{id}', N'{item.DateString}', N'{item.Duration}', N'{item.Discipline[0]}', N'{item.Discipline.Substring(4)}', N'{item.Chamber}', N'{item.Lesson_Type}', N'{item.Teacher}', N'{_group_name}')", connection);
+                    string _tableName = Properties.Resources.TableName;
+                    sql_command = new MySqlCommand($"INSERT INTO {_tableName} (Id, Date, Duration, LessonNumber, LessonName, Chamber, LessonType, Teacher, GroupName, StartTime, EndTime) VALUES ({id}, '{item.DateString}', '{item.Duration}', {item.Discipline[0]}, '{item.Discipline.Substring(4)}', '{item.Chamber}', '{item.Lesson_Type}', '{item.Teacher}', '{_group_name}', '{item.StartTime}', '{item.EndTime}')", connection);
+                   // $"{_insert_Into_Table} VALUES ({id}, '{item.DateString}', '{item.Duration}', {item.Discipline[0]}, '{item.Discipline.Substring(4)}', '{item.Chamber}', '{item.Lesson_Type}', '{item.Teacher}', '{_group_name}', '{item.StartTime}', '{item.EndTime}')", connection);
                     sql_command.ExecuteNonQuery();
                 }
                 Week_Shedule_List = new Weekly_Shedule_Pattern(_group_name, _one_day_shedule);
@@ -96,7 +99,7 @@ namespace Urfu_Shedule_Parser.Sorting_Data
             }
             return Week_Shedule_List;
         }
-        public bool SqlConnectionState_Check(SqlConnection connection)
+        public bool SqlConnectionState_Check(MySqlConnection connection)
         {
            //TimeEvent();
 

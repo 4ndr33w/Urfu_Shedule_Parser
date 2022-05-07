@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Urfu_Shedule_Parser.Shedule_Pattern;
 using System.Globalization;
+using System.Threading;
 
 namespace Urfu_Shedule_Parser
 {
@@ -95,9 +96,25 @@ namespace Urfu_Shedule_Parser
 
         private void show_result_Button_Click(object sender, RoutedEventArgs e)
         {
-            //string _sql_table_name = _sql_requests.TableName;
+            // Saving_Data.Data_Base_Class _DB_connection = new Saving_Data.Data_Base_Class();
+            // Sorting_Data.Sort_Data _sort = new Sorting_Data.Sort_Data();
+            // Task.Run(() =>
+            //{
+            //    while (_sort.SqlConnectionState_Check(_DB_connection.sql_connection_return()) == false)
+            //    {
+            //        _sort.SqlConnectionState_Check(_DB_connection.sql_connection_return());
+            //        Thread.Sleep(100);
+            //    }
+            //    MessageBox.Show(_DB_connection.sql_connection_return().State.ToString());
+            //while (SqlConnectionState_Check(connection) == false)
+            //{
+            //    SqlConnectionState_Check(connection); // ждём когда откроется sql_connection
+            //    Thread.Sleep(100);
+            //}
             string _selectAll_from_Table = _sql_requests.SelectAll_From_Table; ;
-            Grid_Data.ItemsSource = _display.DB_Table(_selectAll_from_Table).DefaultView;
+               Grid_Data.ItemsSource = _display.DB_Table(_selectAll_from_Table).DefaultView;
+           //});
+            
         }
 
         private void clear_table_Button_Click(object sender, RoutedEventArgs e)
@@ -114,7 +131,6 @@ namespace Urfu_Shedule_Parser
             {
                 return;
             }
-           
         }
 
         private void Today_Btn_Click(object sender, RoutedEventArgs e)
@@ -131,7 +147,12 @@ namespace Urfu_Shedule_Parser
 
         private void Current_Btn_Click(object sender, RoutedEventArgs e)
         {
-           
+            //string _currentLesson = _sql_requests.CurrentLesson;
+            //string _id = _sql_requests.CurrentLesson_ID;
+            //string _id_str = (_display.DB_Table(_id).DefaultView)[_display.DB_Table(_id).Columns.Count].ToString();
+            //int _id_int = Convert.ToInt32(_id);
+            //Grid_Data.ItemsSource = _display.DB_Table(_currentLesson).DefaultView;
+            //MessageBox.Show($"Col: {_display.DB_Table(_id).Rows[}" + ' ' + $"Row: {_display.DB_Table(_id).Rows.Count}");
         }
 
         private void Next_Btn_Click(object sender, RoutedEventArgs e)
