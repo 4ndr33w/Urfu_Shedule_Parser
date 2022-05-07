@@ -67,7 +67,7 @@ namespace Urfu_Shedule_Parser.Request
             }
             catch (Exception)
             {
-                Response = "Возникла ошибка";
+                Response = string.Empty ;
             }
         }
     }

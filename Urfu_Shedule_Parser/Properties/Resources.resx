@@ -126,4 +126,7 @@
   <data name="Shedule_url_Backup" xml:space="preserve">
     <value>https://urfu.ru/api/schedule/groups/lessons/985795/20220411/</value>
   </data>
+  <data name="TableName" xml:space="preserve">
+    <value>Shedule</value>
+  </data>
 </root>

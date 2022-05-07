@@ -14,21 +14,61 @@ namespace Urfu_Shedule_Parser.Display_Data_From_DB
         {
             return _answer;
         }
+        private static CultureInfo _cultureInfo()
+        {
+            CultureInfo _culture = CultureInfo.CreateSpecificCulture("ru-RU");
+            return _culture;
+        }
 
         private static string _today_date ()
         {
-            CultureInfo _culture = CultureInfo.CreateSpecificCulture("ru-RU");//reateSpecificCulture("ru-RU");
+            //CultureInfo _culture = CultureInfo.CreateSpecificCulture("ru-RU");//reateSpecificCulture("ru-RU");
             DateTime today_date = DateTime.Today; //.ToString("d, MMMM", CultureInfo.CreateSpecificCulture("ru-RU")).Dump();
-            return today_date.ToString("dd MMMM", _culture);
+            return today_date.ToString("dd MMMM", _cultureInfo());
         }
+        private static string _tomorrow_date()
+        {
+            //CultureInfo _culture = CultureInfo.CreateSpecificCulture("ru-RU");//reateSpecificCulture("ru-RU");
+            DateTime tomorrow = DateTime.Today.AddDays(1);
+            string tomorrow_date_str = tomorrow.ToString("dd MMMM", _cultureInfo());
+            return tomorrow_date_str;
+        }
+        private static string _this_week()
+        {
+            DateTime _sunday_date = DateTime.Today.AddDays(7 - (int)DateTime.Today.DayOfWeek);
+            string _sunday_str = _sunday_date.ToString("dd MMMM", _cultureInfo());
+            string _today_str = DateTime.Today.ToString("dd MMMM", _cultureInfo());
+            string _this_week_sql_string = $"SELECT * FROM {_tableName} WHERE {_tableName}.Date BETWEEN'{_today_str}' AND '{_sunday_str}'";
+            return _this_week_sql_string;
+        }
+        private static string _next_week()
+        {
+            DateTime _sunday_date = DateTime.Today.AddDays(7 - (int)DateTime.Today.DayOfWeek);
+            DateTime _next_sunday = DateTime.Today.AddDays(14 - (int)DateTime.Today.DayOfWeek);
+            string _sunday_str = _sunday_date.ToString("dd MMMM", _cultureInfo());
+            string _next_sunday_str = _next_sunday.ToString("dd MMMM", _cultureInfo());
+            string _next_week_sql_string = $"SELECT * FROM {_tableName} WHERE {_tableName}.Date BETWEEN'{_sunday_str}' AND '{_next_sunday_str}'";
+            return _next_week_sql_string;
+        }
+        public string NextWeek_Lessons { get { return _next_week(); } }
+        public string ThisWeek_Lessons { get { return _this_week(); } }
 
         public string Today_Lessons { get { return _sql_today_lessons; } }
-        public string Today_Date { get { return _today_date(); } }
+        public string Tomorrow_Lessons { get { return _sql_tomorrow_lessons; } }
+        public string Clear_Table { get { return _sql_delete_from_table; } }
+        public string TableName { get { return _tableName; } }
+        public string SelectAll_From_Table { get { return _sql_select_all_from_table; } }
+        //public string Today_Lessons_Sql_String { get { return _sql_today_lessons; } }
 
-        private string _sql_current_lesson = @"SELECT * FROM [Shedule] where";
+        private string _sql_current_lesson = $"SELECT * FROM [{_tableName}] where";
         private string _sql_next_lesson = "";
-        private string _sql_today_lessons = $"SELECT * FROM Shedule WHERE Id > 2";
-        private string _sql_tomorrow_lessons = "";
+        private string _sql_today_lessons = $"SELECT * FROM {_tableName} WHERE {_tableName}.Date = N'{_today_date()}'";
+        private string _sql_tomorrow_lessons = $"SELECT * FROM {_tableName} WHERE {_tableName}.Date = N'{_tomorrow_date()}'";
         private string _sql_this_week_lessons = "";
+        private string _sql_delete_from_table = $"DELETE FROM {_tableName}";
+        private string _sql_select_all_from_table = $"SELECT * FROM {_tableName}";
+
+
+        private static string _tableName = Properties.Resources.TableName;
     }
 }

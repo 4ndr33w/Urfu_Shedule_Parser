@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Windows;
 
 namespace Urfu_Shedule_Parser.Display_Data_From_DB
 {
@@ -12,17 +13,28 @@ namespace Urfu_Shedule_Parser.Display_Data_From_DB
 
         public DataTable DB_Table(string sql_string)
         {
-            var _connection = DB_Connect.sql_connection_return();
-            _connection.Open();
             DataTable dt = new DataTable();
-            SqlCommand command = new SqlCommand(sql_string, _connection);
-            SqlDataAdapter adapter = new SqlDataAdapter(command/*"SELECT * FROM Shedule"*/);
-            
-            command.ExecuteNonQuery();
             DataSet _dataSet = new DataSet();
-            adapter.Fill(_dataSet, "_shedule");
-            dt = _dataSet.Tables["_shedule"];
-            _connection.Close();
+            try
+            {
+                var _connection = DB_Connect.sql_connection_return();
+                _connection.Open();
+                
+                SqlCommand command = new SqlCommand(sql_string, _connection);
+                SqlDataAdapter adapter = new SqlDataAdapter(command/*"SELECT * FROM Shedule"*/);
+
+                command.ExecuteNonQuery();
+                
+                adapter.Fill(_dataSet, "_shedule");
+                dt = _dataSet.Tables["_shedule"];
+                _connection.Close();
+            }
+            catch (System.Exception)
+            {
+                MessageBox.Show("проблемы с подключением");
+                return dt;
+            }
+           
             return dt;
         }
     }

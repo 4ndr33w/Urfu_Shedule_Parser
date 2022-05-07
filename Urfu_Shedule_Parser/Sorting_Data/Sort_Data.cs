@@ -25,6 +25,7 @@ namespace Urfu_Shedule_Parser.Sorting_Data
         Lesson_Pattern _lesson = new Lesson_Pattern();
         List<string> _raw_shedule_strings__splittet_by_days = new List<string>();
         One_Day_Pattern _one_day = new One_Day_Pattern();
+        Display_Data_From_DB.SQL_Command_Class _sql_command = new Display_Data_From_DB.SQL_Command_Class();
 
         Saving_Data.Data_Base_Class DB_Fills = new Saving_Data.Data_Base_Class();
 
@@ -34,66 +35,73 @@ namespace Urfu_Shedule_Parser.Sorting_Data
             
             SqlConnection connection = DB_Fills.sql_connection_return();
             _response = data;
-            string[] group_splitted = /*new string[] { " ", " " };*/_response.Substring(_response.IndexOf("Группа "), 25).Split(' ');
-            _group_name = /*group_splitted[0] + ' ' + */group_splitted[1];
-
-            SqlCommand sql_command = null;
-
-            int One_Day_List_StartIndex = data.IndexOf("<b>");
-            int One_Day_List_EndIndex = data.IndexOf("<td colspan=\"3\"> </td>", One_Day_List_StartIndex);
-            
-            while (One_Day_List_StartIndex > -1 && One_Day_List_EndIndex > One_Day_List_StartIndex)
+            if (_response != string.Empty || _response.Substring(_response.IndexOf("Группа "), 25).Split(' ') != null)
             {
-                string _one_day_string = _response.Substring(One_Day_List_StartIndex, One_Day_List_EndIndex - One_Day_List_StartIndex);
-                One_Day_List_StartIndex = data.IndexOf("<td colspan=\"3\"><b>", One_Day_List_EndIndex);
-                if (One_Day_List_StartIndex > 0)
+
+                string[] group_splitted = /*new string[] { " ", " " };*/_response.Substring(_response.IndexOf("Группа "), 25).Split(' ');
+                _group_name = /*group_splitted[0] + ' ' + */group_splitted[1];
+
+                SqlCommand sql_command = null;
+
+                int One_Day_List_StartIndex = data.IndexOf("<b>");
+                int One_Day_List_EndIndex = data.IndexOf("<td colspan=\"3\"> </td>", One_Day_List_StartIndex);
+
+                while (One_Day_List_StartIndex > -1 && One_Day_List_EndIndex > One_Day_List_StartIndex)
                 {
-                    One_Day_List_EndIndex = data.IndexOf("<td colspan=\"3\"> </td>", One_Day_List_StartIndex);
+                    string _one_day_string = _response.Substring(One_Day_List_StartIndex, One_Day_List_EndIndex - One_Day_List_StartIndex);
+                    One_Day_List_StartIndex = data.IndexOf("<td colspan=\"3\"><b>", One_Day_List_EndIndex);
+                    if (One_Day_List_StartIndex > 0)
+                    {
+                        One_Day_List_EndIndex = data.IndexOf("<td colspan=\"3\"> </td>", One_Day_List_StartIndex);
 
-                    _raw_shedule_strings__splittet_by_days.Add(_one_day_string);
+                        _raw_shedule_strings__splittet_by_days.Add(_one_day_string);
 
-                    int StartIndex = _one_day_string.IndexOf("<b>");
-                    int EndIndex = _one_day_string.IndexOf("</b>");
-                    string _date_string = _one_day_string.Substring(StartIndex + 3, EndIndex - StartIndex - 3);
+                        int StartIndex = _one_day_string.IndexOf("<b>");
+                        int EndIndex = _one_day_string.IndexOf("</b>");
+                        string _date_string = _one_day_string.Substring(StartIndex + 3, EndIndex - StartIndex - 3);
+                    }
                 }
-            }
-            foreach (var item in _raw_shedule_strings__splittet_by_days)
-            {
-                _one_day_shedule.Add(new One_Day_Pattern(Dayly_Shedule_Sort(item)));
-            }
-            int id = 0;
-
-            while (false)
-            {
-                SqlConnectionState_Check(connection); // ждём когда откроется sql_connection
-            }
-            //Thread.Sleep(2000); // ждём пока откроется соединение с БД. джём именно таким методом так - потому что по-другому пока не умею
-
-            sql_command = new SqlCommand("DELETE FROM Shedule", connection);
-            sql_command.ExecuteNonQuery();
-
-            foreach (var item in _one_day_shedule[0].Get_Lessons)
+                foreach (var item in _raw_shedule_strings__splittet_by_days)
                 {
-                        id++;
+                    _one_day_shedule.Add(new One_Day_Pattern(Dayly_Shedule_Sort(item)));
+                }
+                int id = 0;
 
-                        sql_command = new SqlCommand(
-                            $"INSERT INTO [Shedule] (Id, Date, Duration, LessonNumber, LessonName, Chamber, LessonType, Teacher, GroupName) VALUES ('{id}', N'{item.DateString}', N'{item.Duration}', N'{item.Discipline[0]}', N'{item.Discipline.Substring(4)}', N'{item.Chamber}', N'{item.Lesson_Type}', N'{item.Teacher}', N'{_group_name}')", connection);
-                        sql_command.ExecuteNonQuery();
-            }
+                while (SqlConnectionState_Check(connection) == false)
+                {
+                    SqlConnectionState_Check(connection); // ждём когда откроется sql_connection
+                    Thread.Sleep(100);
+                }
+                //Thread.Sleep(2000); // ждём пока откроется соединение с БД. джём именно таким методом так - потому что по-другому пока не умею
+                string clear_table = _sql_command.Clear_Table;
+                string _tableName = Properties.Resources.TableName;
+
+                sql_command = new SqlCommand(clear_table, connection);
+                sql_command.ExecuteNonQuery();
+
+                foreach (var item in _one_day_shedule[0].Get_Lessons)
+                {
+                    id++;
+
+                    sql_command = new SqlCommand(
+                        $"INSERT INTO [{_tableName}] (Id, Date, Duration, LessonNumber, LessonName, Chamber, LessonType, Teacher, GroupName) VALUES ('{id}', N'{item.DateString}', N'{item.Duration}', N'{item.Discipline[0]}', N'{item.Discipline.Substring(4)}', N'{item.Chamber}', N'{item.Lesson_Type}', N'{item.Teacher}', N'{_group_name}')", connection);
+                    sql_command.ExecuteNonQuery();
+                }
                 Week_Shedule_List = new Weekly_Shedule_Pattern(_group_name, _one_day_shedule);
 
-            connection.Close();
-            MessageBox.Show("Парсинг выполнен. DB connection state: " + connection.State.ToString());
+                connection.Close();
+                MessageBox.Show("Парсинг выполнен. DB connection state: " + connection.State.ToString());
 
+                return Week_Shedule_List;
+            }
             return Week_Shedule_List;
-
         }
         public bool SqlConnectionState_Check(SqlConnection connection)
         {
-            TimeEvent();
+           //TimeEvent();
 
-            if (connection.State == System.Data.ConnectionState.Open) return false;
-            else return true;
+            if (connection.State == System.Data.ConnectionState.Open) return true;
+            else return false;
         }
         public void TimeEvent()
         {

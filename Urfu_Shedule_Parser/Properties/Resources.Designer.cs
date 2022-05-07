@@ -86,5 +86,14 @@ namespace Urfu_Shedule_Parser.Properties {
                 return ResourceManager.GetString("Shedule_url_Backup", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Shedule.
+        /// </summary>
+        internal static string TableName {
+            get {
+                return ResourceManager.GetString("TableName", resourceCulture);
+            }
+        }
     }
 }

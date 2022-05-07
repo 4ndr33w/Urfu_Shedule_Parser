@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using Urfu_Shedule_Parser.Shedule_Pattern;
 using System.Globalization;
-using System.Data.SqlClient;
-using System.Timers;
 
 namespace Urfu_Shedule_Parser
 {
@@ -24,8 +22,12 @@ namespace Urfu_Shedule_Parser
         Request.Get_Data run_test = new Request.Get_Data();
         CultureInfo _culture = CultureInfo.CreateSpecificCulture("ru-RU");
         Saving_Data.Data_Base_Class _sql_check = new Saving_Data.Data_Base_Class();
+        
 
         Display_Data_From_DB.DB_Display _display = new Display_Data_From_DB.DB_Display();
+        Display_Data_From_DB.SQL_Command_Class _sql_requests = new Display_Data_From_DB.SQL_Command_Class();
+
+        
 
         public MainWindow()
         {
@@ -51,75 +53,61 @@ namespace Urfu_Shedule_Parser
 
             Sorting_Data.Sort_Data sort_data = new Sorting_Data.Sort_Data();
 
-            //while (false)
-            //{
-            //    clear_table_Button.IsEnabled = false;
-            //    show_result_Button.IsEnabled = false;
-            //    Current_Btn.IsEnabled = false;
-            //    Next_Btn.IsEnabled = false;
-            //    Today_Btn.IsEnabled = false;
-            //    Tomorrow_Btn.IsEnabled = false;
-            //    This_Week_Btn.IsEnabled = false;
-            //    Next_Btn.IsEnabled = false;
-            //    sort_data.SqlConnectionState_Check(_sql_check.sql_connection_return()); // через TimeEvent ждём когда откроется sql_connection
-            //}
-            //clear_table_Button.IsEnabled = true;
-            //show_result_Button.IsEnabled = true;
-            ////Current_Btn.IsEnabled = true;
-            ////Next_Btn.IsEnabled = true;
-            //Today_Btn.IsEnabled = true;
-            //Tomorrow_Btn.IsEnabled = true;
-            //This_Week_Btn.IsEnabled = true;
-            //NextWeek_Btn.IsEnabled = true;
-
             Task.Run(() =>
             {
-                get_response = run_test.get_data();
-                for (int i = 0; i < get_response.Count; i++)
+                if (run_test.get_data()[0] != string.Empty || run_test.get_data()[0] != null)
                 {
-                    One_Group_Shedule = sort_data.Weekly_Shedule_Sort(get_response[i]);
-                }
+                    //MessageBox.Show(run_test.get_data()[0]);
+                    get_response = run_test.get_data();
+                    for (int i = 0; i < get_response.Count; i++)
+                    {
+                        One_Group_Shedule = sort_data.Weekly_Shedule_Sort(get_response[i]);
+                    }
 
-                string _group_name = "";
-                Dispatcher.Invoke(new Action(() =>
-                {
+                    string _group_name = "";
+                    Dispatcher.Invoke(new Action(() =>
+                    {
                         Weekly_List.Add(new One_Day_Pattern(One_Group_Shedule.DayPattern_List[One_Group_Shedule.DayPattern_List.Count - 1]));
 
-                    _group_name = One_Group_Shedule.Group;
-                    Shedule.Add(new Weekly_Shedule_Pattern(_group_name, Weekly_List));
+                        _group_name = One_Group_Shedule.Group;
+                        Shedule.Add(new Weekly_Shedule_Pattern(_group_name, Weekly_List));
 
-                    foreach (var group in Shedule)
-                    {
-                        foreach (var day_Shedule in group.DayPattern_List)
+                        foreach (var group in Shedule)
                         {
-                            Lessons = day_Shedule.Get_Lessons;
-
-                            foreach (var daily_Lesson in day_Shedule.Get_Lessons.ToArray())
+                            foreach (var day_Shedule in group.DayPattern_List)
                             {
-                                Lessons.Add(new Lesson_Pattern(daily_Lesson));
+                                Lessons = day_Shedule.Get_Lessons;
+
+                                foreach (var daily_Lesson in day_Shedule.Get_Lessons.ToArray())
+                                {
+                                    Lessons.Add(new Lesson_Pattern(daily_Lesson));
+                                }
                             }
                         }
-                    }
-                }));
+                    }));
+                }
+                else MessageBox.Show("пусто");
+               
                 //DateTime EndTime = DateTime.Now;
                 //TimeSpan span = EndTime - StartTime;
-                
             });
         }
 
         private void show_result_Button_Click(object sender, RoutedEventArgs e)
         {
-            Grid_Data.ItemsSource = _display.DB_Table("SELECT * FROM Shedule").DefaultView;
+            //string _sql_table_name = _sql_requests.TableName;
+            string _selectAll_from_Table = _sql_requests.SelectAll_From_Table; ;
+            Grid_Data.ItemsSource = _display.DB_Table(_selectAll_from_Table).DefaultView;
         }
 
         private void clear_table_Button_Click(object sender, RoutedEventArgs e)
         {
-            
+            string _clearTable = _sql_requests.Clear_Table;
             try
             {
-                if (Grid_Data.ItemsSource != null && Grid_Data != null && _display.DB_Table("DELETE FROM [Shedule]") != null)
+                if (Grid_Data.ItemsSource != null && Grid_Data != null && _display.DB_Table(_clearTable) != null)
                 {
-                    Grid_Data.ItemsSource = _display.DB_Table("DELETE FROM [Shedule]").DefaultView;
+                    Grid_Data.ItemsSource = _display.DB_Table(_clearTable).DefaultView;
                 }
             }
             catch (Exception)
@@ -131,19 +119,14 @@ namespace Urfu_Shedule_Parser
 
         private void Today_Btn_Click(object sender, RoutedEventArgs e)
         {
-            string _today_date_str = DateTime.Today.ToString("dd MMMM", _culture);
-            string _today_sql_string = $"SELECT * FROM Shedule WHERE Shedule.Date = N'{_today_date_str}'";
-
-            Grid_Data.ItemsSource = _display.DB_Table(_today_sql_string).DefaultView;
+            string _today_lessons = _sql_requests.Today_Lessons;
+            Grid_Data.ItemsSource = _display.DB_Table(_today_lessons).DefaultView;
         }
 
         private void Tomorrow_Btn_Click(object sender, RoutedEventArgs e)
         {
-            DateTime tomorrow = DateTime.Today.AddDays(1);
-            string tomorrow_date_str = tomorrow.ToString("dd MMMM", _culture);
-            string tomorrow_sql_string = $"SELECT * FROM Shedule WHERE Shedule.Date = N'{tomorrow_date_str}'";
-
-            Grid_Data.ItemsSource = _display.DB_Table(tomorrow_sql_string).DefaultView;
+            string _tomorrow_lessons = _sql_requests.Tomorrow_Lessons;
+            Grid_Data.ItemsSource = _display.DB_Table(_tomorrow_lessons).DefaultView;
         }
 
         private void Current_Btn_Click(object sender, RoutedEventArgs e)
@@ -158,23 +141,13 @@ namespace Urfu_Shedule_Parser
 
         private void This_Week_Btn_Click(object sender, RoutedEventArgs e)
         {
-            DateTime _sunday_date = DateTime.Today.AddDays(7 - (int)DateTime.Today.DayOfWeek);
-            string _sunday_str = _sunday_date.ToString("dd MMMM", _culture);
-            string _today_str = DateTime.Today.ToString("dd MMMM", _culture);
-            string _this_week_sql_string = $"SELECT * FROM Shedule WHERE Shedule.Date BETWEEN'{_today_str}' AND '{_sunday_str}'";
-
+            string _this_week_sql_string = _sql_requests.ThisWeek_Lessons;
             Grid_Data.ItemsSource = _display.DB_Table(_this_week_sql_string).DefaultView;
-
         }
 
         private void NextWeek_Btn_Click(object sender, RoutedEventArgs e)
         {
-            DateTime _sunday_date = DateTime.Today.AddDays(7 - (int)DateTime.Today.DayOfWeek);
-            DateTime _next_sunday = DateTime.Today.AddDays(14 - (int)DateTime.Today.DayOfWeek);
-            string _sunday_str = _sunday_date.ToString("dd MMMM", _culture);
-            string _next_sunday_str = _next_sunday.ToString("dd MMMM", _culture);
-            string _next_week_sql_string = $"SELECT * FROM Shedule WHERE Shedule.Date BETWEEN'{_sunday_str}' AND '{_next_sunday_str}'";
-
+            string _next_week_sql_string = _sql_requests.NextWeek_Lessons;
             Grid_Data.ItemsSource = _display.DB_Table(_next_week_sql_string).DefaultView;
         }
     }
